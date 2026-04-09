@@ -82,6 +82,8 @@ h3{font-size:1.1rem;font-weight:600}
 .badge-rule2{background:rgba(245,197,24,.15);color:var(--gold);border:1px solid rgba(245,197,24,.3)}
 .badge-rule3{background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3)}
 .badge-round{background:var(--bg-card2);color:var(--text-muted);font-size:.85rem;padding:6px 14px}
+.badge-beta{background:rgba(14,165,233,.12);color:var(--info);border:1px solid rgba(14,165,233,.3);font-size:.7rem;padding:3px 10px;letter-spacing:.05em}
+.ai-notice{color:var(--text-dim);font-size:.72rem;text-align:center;padding:4px 0;line-height:1.5}
 
 /* Slider */
 input[type="range"]{
@@ -252,6 +254,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
     <div class="title-diamond"><svg viewBox="0 0 60 60"><polygon points="30,4 56,30 30,56 4,30" fill="none" stroke="#e94560" stroke-width="2.5"/><text x="30" y="36" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#e94560">K</text></svg></div>
     <h1>てんびん</h1>
     <div class="title-sub">ダイヤのキング</div>
+    <div style="margin-top:10px"><span class="badge badge-beta">v0.1 BETA - AI開発中</span></div>
   </div>
   <p class="title-quote">「全員の選んだ数字の平均 × 0.8 に<br>最も近い数字を選べ。」</p>
   <div class="title-settings">
@@ -297,6 +300,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   </div>
   <div class="active-rules" id="active-rules"></div>
   <div class="player-list" id="player-list"></div>
+  <div class="ai-notice">※現在のAIは簡易版（ランダム/固定値）です。強化学習版を開発中</div>
   <div class="input-section">
     <div class="input-value-row">
       <input type="number" class="choice-input" id="choice-input" min="0" max="100" value="50" inputmode="numeric" pattern="[0-9]*">
