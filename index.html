@@ -53,12 +53,6 @@ body{
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 @keyframes scaleIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes slotCycle{
-  0%{transform:translateY(-100%);opacity:0}
-  10%{transform:translateY(0);opacity:1}
-  90%{transform:translateY(0);opacity:1}
-  100%{transform:translateY(100%);opacity:0}
-}
 
 /* ========== TYPOGRAPHY ========== */
 h1{font-size:2rem;font-weight:800;letter-spacing:.05em}
@@ -79,7 +73,6 @@ h3{font-size:1.1rem;font-weight:600}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dim));color:#1a1a2e}
 .btn-sm{padding:10px 16px;font-size:.9rem;width:auto;display:inline-block}
 .btn-back{background:none;border:none;color:var(--text-muted);font-size:1rem;cursor:pointer;padding:8px 0;text-align:left}
-.btn-icon{background:none;border:none;cursor:pointer;font-size:1rem;padding:4px}
 
 /* ========== CARDS & BADGES ========== */
 .card{background:var(--bg-card);border-radius:var(--radius);padding:14px;border:1px solid var(--border)}
@@ -156,20 +149,14 @@ input[type="text"].name-input:focus{border-color:var(--gold)}
   font-size:.55rem;background:var(--bg-card2);color:var(--text-dim);
   padding:2px 6px;border-radius:4px;border:1px solid var(--border);
 }
-details.rules-detail{margin-top:16px}
-details.rules-detail summary{
-  color:var(--text-muted);font-size:.9rem;cursor:pointer;padding:8px 0;
-  list-style:none;display:flex;align-items:center;gap:6px;
+.title-rules-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:16px;padding:10px;
+  background:none;border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text-muted);font-size:.9rem;cursor:pointer;width:100%;
+  transition:transform .1s;
 }
-details.rules-detail summary::before{content:'▶';font-size:.7rem;transition:transform .2s}
-details.rules-detail[open] summary::before{transform:rotate(90deg)}
-.rules-content{
-  color:var(--text-muted);font-size:.82rem;line-height:1.7;
-  padding:12px;background:var(--bg-card);border-radius:var(--radius-sm);margin-top:8px;
-}
-.rules-content h4{color:var(--text);margin:10px 0 4px;font-size:.88rem}
-.rules-content h4:first-child{margin-top:0}
-.rules-content ul{padding-left:1.2em}
+.title-rules-btn:active{transform:scale(.97)}
 
 /* ========== AI COUNT SCREEN ========== */
 .setup-title{text-align:center;margin:20px 0}
@@ -189,11 +176,10 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   transition:border-color .2s,background .2s;min-height:52px;
 }
 .slot-card.active-slot{border-color:var(--gold);background:rgba(245,197,24,.04)}
-.slot-card.filled{cursor:default}
 .slot-icon{font-size:1.4rem;width:32px;text-align:center;flex-shrink:0}
 .slot-info{flex:1;min-width:0}
 .slot-name{font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.slot-catch{font-size:.72rem;color:var(--text-muted)}
+.slot-stars{font-size:.65rem;color:var(--gold);letter-spacing:1px}
 .slot-empty{color:var(--text-dim);font-size:.85rem;font-style:italic}
 .slot-btn{
   padding:5px 10px;font-size:.75rem;border-radius:6px;
@@ -208,7 +194,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 }
 .char-card{
   display:flex;flex-direction:column;align-items:center;
-  padding:10px 6px 8px;gap:2px;
+  padding:12px 6px 10px;gap:3px;
   background:var(--bg-card);border:2px solid var(--border);
   border-radius:var(--radius);cursor:pointer;
   transition:transform .1s,border-color .2s;text-align:center;
@@ -217,16 +203,23 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 }
 .char-card:active{transform:scale(.95)}
 .char-card.highlighted{border-color:var(--char-color);box-shadow:0 0 12px rgba(255,255,255,.08)}
-.char-card-icon{font-size:1.8rem;line-height:1}
-.char-card-name{font-size:.75rem;font-weight:600;line-height:1.2}
-.char-card-stars{font-size:.6rem;color:var(--gold);letter-spacing:1px}
-.char-card-catch{font-size:.62rem;color:var(--text-muted);line-height:1.2}
-.char-card-info{
-  position:absolute;top:3px;right:4px;font-size:.65rem;
-  color:var(--text-dim);cursor:pointer;line-height:1;
-  width:18px;height:18px;display:flex;align-items:center;justify-content:center;
-  border-radius:50%;background:var(--bg-card2);
+.char-card-icon{font-size:2.2rem;line-height:1}
+.char-card-name{font-size:.78rem;font-weight:600;line-height:1.2;margin-top:2px}
+.char-card-stars{font-size:.62rem;color:var(--gold);letter-spacing:1px}
+
+/* ========== GAME NAV ========== */
+.game-nav{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
 }
+.game-nav-btn{
+  min-width:44px;min-height:44px;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--border);border-radius:var(--radius-sm);
+  font-size:1.2rem;cursor:pointer;color:var(--text);
+  transition:transform .1s,background .1s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.game-nav-btn:active{transform:scale(.92);background:var(--bg-card2)}
 
 /* ========== GAME SCREEN ========== */
 .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -243,7 +236,6 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .player-name small{font-weight:400;color:var(--text-muted);font-size:.75rem;margin-left:4px}
 .player-pts{font-weight:700;font-size:1rem;min-width:50px;text-align:right}
 .player-status{font-size:.75rem;color:var(--danger);font-weight:600}
-.ai-notice{color:var(--text-dim);font-size:.72rem;text-align:center;padding:4px 0;line-height:1.5}
 .input-section{
   background:var(--bg-card);border-radius:var(--radius);padding:16px;
   border:1px solid var(--border);
@@ -294,13 +286,12 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .event-elim{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--danger)}
 .event-rule{background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.25);color:var(--accent)}
 .event-special{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);color:var(--gold)}
+.result-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:12px}
 
 /* ========== GAMEOVER SCREEN ========== */
 .gameover-banner{text-align:center;padding:30px 0 20px}
 .gameover-banner h2{font-size:1.8rem}
 .gameover-banner .result-label{font-size:1rem;margin-top:8px}
-.win-label{color:var(--gold);animation:pulse 1.5s infinite}
-.lose-label{color:var(--accent)}
 .standing-list{display:flex;flex-direction:column;gap:6px;margin:16px 0}
 .standing-card{
   display:flex;align-items:center;gap:10px;padding:10px 12px;
@@ -311,6 +302,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .standing-name{flex:1;font-weight:600}
 .standing-pts{color:var(--text-muted);font-size:.9rem}
 .gameover-stats{text-align:center;color:var(--text-muted);font-size:.85rem;margin:16px 0}
+.gameover-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:12px}
 
 /* ========== HISTORY SCREEN ========== */
 .history-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -369,7 +361,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .pnp-reveal-text{font-size:1.1rem;font-weight:600}
 .pnp-reveal-players{font-size:.85rem;color:var(--text-muted);line-height:1.6}
 
-/* ========== MODAL ========== */
+/* ========== MODALS & OVERLAYS ========== */
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.65);
   display:flex;align-items:center;justify-content:center;
@@ -381,11 +373,33 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   border:1px solid var(--border);text-align:center;
   animation:scaleIn .25s ease-out;
 }
-.modal-icon{font-size:2.5rem;margin-bottom:8px}
-.modal-name{font-size:1.2rem;font-weight:800;margin-bottom:4px}
-.modal-catch{font-size:.85rem;color:var(--text-muted);margin-bottom:8px}
-.modal-stars{font-size:.85rem;color:var(--gold);margin-bottom:12px}
-.modal-desc{font-size:.85rem;color:var(--text);line-height:1.6;text-align:left;margin-bottom:16px}
+.modal-icon{font-size:4rem;margin-bottom:8px}
+.modal-name{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.modal-stars{font-size:1rem;color:var(--gold);margin-bottom:16px;letter-spacing:2px}
+.modal-msg{font-size:.9rem;color:var(--text-muted);line-height:1.6;margin-bottom:20px}
+.modal-btns{display:flex;flex-direction:column;gap:8px}
+.modal-btns-row{display:flex;gap:8px}
+.modal-btns-row .btn{flex:1}
+
+/* Pause overlay */
+.pause-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.8);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:100;gap:20px;padding:20px;
+}
+.pause-title{font-size:1.6rem;font-weight:800;color:var(--text);letter-spacing:.1em}
+.pause-menu{display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px}
+
+/* Rules modal */
+.rules-modal-body{
+  max-height:60vh;overflow-y:auto;text-align:left;
+  font-size:.85rem;color:var(--text-muted);line-height:1.7;
+  padding:16px;background:var(--bg-card2);border-radius:var(--radius-sm);
+  margin-bottom:16px;
+}
+.rules-modal-body h4{color:var(--text);margin:12px 0 4px;font-size:.9rem}
+.rules-modal-body h4:first-child{margin-top:0}
+.rules-modal-body ul{padding-left:1.2em}
 </style>
 </head>
 <body>
@@ -400,7 +414,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
       <div class="title-diamond"><svg viewBox="0 0 60 60"><polygon points="30,4 56,30 30,56 4,30" fill="none" stroke="#e94560" stroke-width="2.5"/><text x="30" y="36" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#e94560">K</text></svg></div>
       <h1 data-i18n="title">てんびん</h1>
       <div class="title-sub" data-i18n="subtitle">ダイヤのキング</div>
-      <div style="margin-top:10px"><span class="badge badge-beta">v0.2 BETA</span></div>
+      <div style="margin-top:10px"><span class="badge badge-beta">v0.3 BETA</span></div>
     </div>
   </div>
   <p class="title-quote" data-i18n="quote">「全員の選んだ数字の平均 × 0.8 に最も近い数字を選べ。」</p>
@@ -427,10 +441,9 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
       <span class="mode-desc" data-i18n="modeHistoryDesc">過去の記録を見る</span>
     </div>
   </div>
-  <details class="rules-detail">
-    <summary data-i18n="rulesLabel">ルール説明</summary>
-    <div class="rules-content" id="rules-content"></div>
-  </details>
+  <button class="title-rules-btn" id="btn-title-rules">
+    <span>📖</span> <span data-i18n="viewRules">ルール確認</span>
+  </button>
 </section>
 
 <!-- ===== AI: PLAYER COUNT ===== -->
@@ -468,11 +481,15 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 
 <!-- ===== GAME SCREEN ===== -->
 <section id="screen-game" class="screen">
-  <div class="game-header">
+  <div class="game-nav">
+    <button class="game-nav-btn" id="btn-game-home">🏠</button>
     <span class="badge badge-round" id="round-badge"></span>
+    <button class="game-nav-btn" id="btn-game-pause">⏸️</button>
+  </div>
+  <div class="game-header">
+    <div class="active-rules" id="active-rules"></div>
     <span style="font-size:.8rem;color:var(--text-dim)" id="alive-count"></span>
   </div>
-  <div class="active-rules" id="active-rules"></div>
   <div class="player-list" id="player-list"></div>
   <div class="input-section" id="input-section">
     <div class="input-value-row">
@@ -505,8 +522,9 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   </div>
   <div class="result-list" id="result-list"></div>
   <div id="result-events"></div>
-  <div style="margin-top:auto;padding-top:12px">
+  <div class="result-actions">
     <button class="btn btn-primary" id="btn-next" data-i18n="nextRound">次のラウンド</button>
+    <button class="btn btn-secondary" id="btn-end-here" data-i18n="endHere">今日はここまで</button>
   </div>
 </section>
 
@@ -515,8 +533,10 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   <div class="gameover-banner" id="gameover-banner"></div>
   <div class="standing-list" id="standing-list"></div>
   <div class="gameover-stats" id="gameover-stats"></div>
-  <div style="margin-top:auto;padding-top:12px">
-    <button class="btn btn-primary" id="btn-return" data-i18n="backToTitle">タイトルに戻る</button>
+  <div class="gameover-actions">
+    <button class="btn btn-primary" id="btn-play-again" data-i18n="playAgain">もう一度</button>
+    <button class="btn btn-secondary" id="btn-change-chars" data-i18n="changeChars">キャラ選択に戻る</button>
+    <button class="btn btn-secondary" id="btn-go-home" data-i18n="goHome">ホーム</button>
   </div>
 </section>
 
@@ -572,9 +592,10 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   </div>
   <!-- Phase: input -->
   <div id="pnp-phase-input" style="display:none">
-    <div class="game-header">
+    <div class="game-nav">
+      <button class="game-nav-btn" id="btn-pnp-game-home">🏠</button>
       <span class="badge badge-round" id="pnp-round-badge"></span>
-      <span style="font-size:.8rem;color:var(--text-dim)" id="pnp-alive-count"></span>
+      <button class="game-nav-btn" id="btn-pnp-game-pause">⏸️</button>
     </div>
     <div class="active-rules" id="pnp-active-rules"></div>
     <div style="text-align:center;margin-bottom:12px">
@@ -622,16 +643,44 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   <div class="modal-content">
     <div class="modal-icon" id="modal-char-icon"></div>
     <div class="modal-name" id="modal-char-name"></div>
-    <div class="modal-catch" id="modal-char-catch"></div>
     <div class="modal-stars" id="modal-char-stars"></div>
-    <div class="modal-desc" id="modal-char-desc"></div>
     <button class="btn btn-secondary btn-sm" id="modal-char-close" data-i18n="close">閉じる</button>
+  </div>
+</div>
+
+<!-- ===== QUIT CONFIRM MODAL ===== -->
+<div id="modal-quit" class="modal-overlay" style="display:none">
+  <div class="modal-content">
+    <div class="modal-msg" id="modal-quit-msg"></div>
+    <div class="modal-btns-row">
+      <button class="btn btn-secondary" id="btn-quit-no" data-i18n="quitNo">いいえ</button>
+      <button class="btn btn-primary" id="btn-quit-yes" data-i18n="quitYes">はい、戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAUSE OVERLAY ===== -->
+<div id="overlay-pause" class="pause-overlay" style="display:none">
+  <div class="pause-title" data-i18n="paused">一時停止中</div>
+  <div class="pause-menu">
+    <button class="btn btn-primary" id="btn-pause-resume" data-i18n="resume">再開</button>
+    <button class="btn btn-secondary" id="btn-pause-rules" data-i18n="viewRules">ルール確認</button>
+    <button class="btn btn-secondary" id="btn-pause-home" data-i18n="backToHome">ホームに戻る</button>
+  </div>
+</div>
+
+<!-- ===== RULES MODAL ===== -->
+<div id="modal-rules" class="modal-overlay" style="display:none">
+  <div class="modal-content" style="max-width:380px">
+    <h3 style="margin-bottom:12px" data-i18n="viewRules">ルール確認</h3>
+    <div class="rules-modal-body" id="rules-modal-body"></div>
+    <button class="btn btn-secondary btn-sm" id="btn-rules-close" data-i18n="close">閉じる</button>
   </div>
 </div>
 
 <script>
 /* ========================================
-   てんびん — ダイヤのキング v0.2
+   てんびん — ダイヤのキング v0.3
    ======================================== */
 
 // === i18n ===
@@ -648,7 +697,7 @@ const LANG = {
     modeOnlineDesc: '準備中',
     modeHistory: '戦績',
     modeHistoryDesc: '過去の記録を見る',
-    rulesLabel: 'ルール説明',
+    viewRules: 'ルール確認',
     rulesHTML: '<h4>基本ルール</h4><ul><li>各プレイヤーは 0〜100 の整数を1つ選ぶ</li><li>全員の平均値 × 0.8 ＝ 目標値</li><li>目標値に最も近い数字を選んだ人が勝者</li><li>勝者以外は <strong>-1ポイント</strong></li><li><strong>-10ポイント</strong> で脱落</li><li>最後に残った1人が優勝</li></ul><h4>追加ルール（脱落者が出るたびに発動）</h4><ul><li>🔴 1人目脱落後:「同値無効」— 同じ数字を選んだプレイヤーは無効＋1ポイント減点</li><li>🟡 2人目脱落後:「ピタリ賞」— 正解値ぴったりが出たら敗者は -2ポイント</li><li>🟣 3人目脱落後:「0→100」— 誰かが0を選んだら100を選んだ人が自動的に勝者</li></ul>',
     playerCount: 'プレイヤー数',
     aiCountVal: '{n}人（あなた + AI×{m}）',
@@ -661,7 +710,6 @@ const LANG = {
     startBattle: '対戦開始',
     slotEmpty: '未選択',
     slotRandom: 'ランダム',
-    difficulty: '難易度',
     close: '閉じる',
     round: 'ラウンド {n}',
     roundResult: 'ラウンド {n} 結果',
@@ -672,6 +720,7 @@ const LANG = {
     distLabel: '差 {d}',
     nextRound: '次のラウンド',
     gameEnd: 'ゲーム終了',
+    endHere: '今日はここまで',
     victory: '👑 優勝',
     yourWin: 'あなたの勝利！',
     gameOverTitle: 'GAME OVER',
@@ -680,6 +729,9 @@ const LANG = {
     winnerIs: '勝者: {name}',
     totalRounds: '全 {n} ラウンド',
     backToTitle: 'タイトルに戻る',
+    playAgain: 'もう一度',
+    changeChars: 'キャラ選択に戻る',
+    goHome: 'ホーム',
     historyTitle: '戦績',
     tabAI: 'vs AI',
     tabPnP: 'みんなで',
@@ -717,7 +769,15 @@ const LANG = {
     pnpHistoryWinner: '優勝: {name}',
     you: 'あなた',
     eliminated: '脱落',
-    strategyLabel: '戦略'
+    quitMsg: 'ゲームを中断してタイトルに戻りますか？\n戦績は記録されません。',
+    quitYes: 'はい、戻る',
+    quitNo: 'いいえ、続ける',
+    paused: '一時停止中',
+    resume: '再開',
+    backToHome: 'ホームに戻る',
+    endHereMsg: 'ゲームを中断しますか？\n戦績は記録されません。',
+    endHereYes: 'はい、終了する',
+    endHereNo: 'いいえ、続ける'
   },
   en: {
     title: 'Tenbin',
@@ -731,7 +791,7 @@ const LANG = {
     modeOnlineDesc: 'Coming Soon',
     modeHistory: 'Records',
     modeHistoryDesc: 'View past results',
-    rulesLabel: 'Rules',
+    viewRules: 'Rules',
     rulesHTML: '<h4>Basic Rules</h4><ul><li>Each player picks an integer from 0 to 100</li><li>Average of all picks × 0.8 = target value</li><li>Closest to target wins</li><li>Losers get <strong>-1 point</strong></li><li><strong>-10 points</strong> = eliminated</li><li>Last one standing wins</li></ul><h4>Special Rules (activated as players are eliminated)</h4><ul><li>🔴 After 1st elimination: "Duplicate Ban" — same number = invalid + penalty</li><li>🟡 After 2nd elimination: "Exact Bonus" — exact match means losers get -2</li><li>🟣 After 3rd elimination: "0→100" — if someone picks 0, whoever picked 100 wins</li></ul>',
     playerCount: 'Players',
     aiCountVal: '{n} players (You + {m} AI)',
@@ -744,7 +804,6 @@ const LANG = {
     startBattle: 'Start Battle',
     slotEmpty: 'Empty',
     slotRandom: 'Random',
-    difficulty: 'Difficulty',
     close: 'Close',
     round: 'Round {n}',
     roundResult: 'Round {n} Result',
@@ -755,6 +814,7 @@ const LANG = {
     distLabel: 'Diff {d}',
     nextRound: 'Next Round',
     gameEnd: 'Game Over',
+    endHere: 'End Here',
     victory: '👑 Victory',
     yourWin: 'You win!',
     gameOverTitle: 'GAME OVER',
@@ -763,6 +823,9 @@ const LANG = {
     winnerIs: 'Winner: {name}',
     totalRounds: '{n} rounds total',
     backToTitle: 'Back to Title',
+    playAgain: 'Play Again',
+    changeChars: 'Change Characters',
+    goHome: 'Home',
     historyTitle: 'Records',
     tabAI: 'vs AI',
     tabPnP: 'Pass & Play',
@@ -800,7 +863,15 @@ const LANG = {
     pnpHistoryWinner: 'Winner: {name}',
     you: 'You',
     eliminated: 'OUT',
-    strategyLabel: 'Strategy'
+    quitMsg: 'Quit the game and return to title?\nProgress will not be saved.',
+    quitYes: 'Yes, quit',
+    quitNo: 'No, continue',
+    paused: 'Paused',
+    resume: 'Resume',
+    backToHome: 'Back to Home',
+    endHereMsg: 'End the game?\nProgress will not be saved.',
+    endHereYes: 'Yes, end',
+    endHereNo: 'No, continue'
   }
 };
 
@@ -823,8 +894,6 @@ function applyI18n() {
     el.textContent = t(el.dataset.i18n);
   });
   $('lang-label').textContent = currentLang === 'ja' ? 'JP' : 'EN';
-  $('rules-content').innerHTML = t('rulesHTML');
-  // Update dynamic counts if visible
   updateAiCountLabel();
   updatePnpCountLabel();
 }
@@ -839,67 +908,42 @@ function toggleLang() {
 const CHARACTERS = [
   {
     id: 'randomizer',
-    icon: '🎲',
-    name: { ja: 'ランダマー', en: 'Randomizer' },
+    icon: '🐰',
+    name: { ja: 'ウサギ', en: 'Rabbit' },
     stars: 1,
-    color: '#888888',
-    catchphrase: { ja: '気まぐれ', en: 'Chaotic' },
-    description: {
-      ja: '0〜100の整数をランダムに選ぶ。予測不能だが、平均からかけ離れた数字を出すことが多いため勝率は低い。',
-      en: 'Picks a random integer from 0-100. Unpredictable but often far from the target, resulting in low win rates.'
-    },
+    color: '#ec4899',
     choose: function() { return Math.floor(Math.random() * 101); }
   },
   {
     id: 'textbook',
-    icon: '📖',
-    name: { ja: '教科書くん', en: 'Textbook' },
+    icon: '🦉',
+    name: { ja: 'フクロウ', en: 'Owl' },
     stars: 2,
-    color: '#3b82f6',
-    catchphrase: { ja: '理論通り', en: 'By the book' },
-    description: {
-      ja: 'Level-1思考。全員がランダム（平均50）と仮定し、50×0.8=40を常に選ぶ教科書通りの戦略。',
-      en: 'Level-1 thinking. Assumes everyone picks randomly (avg 50), always picks 50×0.8=40. Textbook strategy.'
-    },
+    color: '#b87333',
     choose: function() { return 40; }
   },
   {
     id: 'equilibrist',
-    icon: '⚖️',
-    name: { ja: '均衡主義者', en: 'Equilibrist' },
+    icon: '🐢',
+    name: { ja: 'カメ', en: 'Turtle' },
     stars: 3,
     color: '#10b981',
-    catchphrase: { ja: '深読み派', en: 'Deep thinker' },
-    description: {
-      ja: 'Level-2思考。Level-1の平均40×0.8=32を常に選ぶ。一段深い推論の使い手。',
-      en: 'Level-2 thinking. Assumes Level-1 avg of 40, picks 40×0.8=32. One level deeper.'
-    },
     choose: function() { return 32; }
   },
   {
     id: 'oracle',
-    icon: '🔮',
-    name: { ja: '読み師', en: 'The Oracle' },
-    stars: 4,
+    icon: '🐙',
+    name: { ja: 'タコ', en: 'Octopus' },
+    stars: 5,
     color: '#a855f7',
-    catchphrase: { ja: '三手先を読む', en: 'Three moves ahead' },
-    description: {
-      ja: 'Level-3思考。32×0.8≈26を常に選ぶ。トーナメントでは勝率60.7%を記録した最強クラスの戦略。',
-      en: 'Level-3 thinking. Always picks 32×0.8≈26. Recorded 60.7% win rate in tournaments — deceptively powerful.'
-    },
     choose: function() { return 26; }
   },
   {
     id: 'adapter',
-    icon: '🔄',
-    name: { ja: '適応者', en: 'Adapter' },
+    icon: '🦎',
+    name: { ja: 'カメレオン', en: 'Chameleon' },
     stars: 4,
-    color: '#eab308',
-    catchphrase: { ja: '流れを読む', en: 'Flow reader' },
-    description: {
-      ja: '過去のラウンドの目標値を分析し、直近の目標値の移動平均×0.8を出す。ゲームの流れに適応する動的戦略。',
-      en: 'Analyzes past rounds, picks moving average of recent targets × 0.8. Dynamic strategy adapting to the flow.'
-    },
+    color: '#84cc16',
     choose: function(hist) {
       if (!hist || hist.length === 0) return 32;
       const recent = hist.slice(-3).map(r => r.target);
@@ -909,15 +953,10 @@ const CHARACTERS = [
   },
   {
     id: 'bomber',
-    icon: '💣',
-    name: { ja: '爆弾魔', en: 'Bomber' },
+    icon: '🦍',
+    name: { ja: 'ゴリラ', en: 'Gorilla' },
     stars: 3,
-    color: '#ef4444',
-    catchphrase: { ja: '卓袱台返し', en: 'Table flipper' },
-    description: {
-      ja: '通常はLevel-2の32を出すが、20%の確率で60〜90の「爆弾」を投下。目標値を大きく引き上げて混乱させる。',
-      en: 'Usually picks 32 (Level-2), but 20% of the time throws a "bomb" (60-90), pulling the target way up.'
-    },
+    color: '#6b7280',
     choose: function() {
       if (Math.random() < 0.2) return Math.floor(Math.random() * 31) + 60;
       return 32;
@@ -925,15 +964,10 @@ const CHARACTERS = [
   },
   {
     id: 'humanoid',
-    icon: '🧠',
-    name: { ja: '人間もどき', en: 'Humanoid' },
+    icon: '🐵',
+    name: { ja: 'サル', en: 'Monkey' },
     stars: 3,
-    color: '#f97316',
-    catchphrase: { ja: '感覚派', en: 'Gut feeling' },
-    description: {
-      ja: '平均27、標準偏差15の正規分布から数字を選ぶ。人間の実験データに基づく、最も人間に近い挙動のAI。',
-      en: 'Picks from a normal distribution (mean 27, std 15). Based on real experimental data — the most human-like AI.'
-    },
+    color: '#d97706',
     choose: function() {
       const u1 = Math.random(), u2 = Math.random();
       const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
@@ -944,8 +978,6 @@ const CHARACTERS = [
 
 function getChar(id) { return CHARACTERS.find(c => c.id === id); }
 function charName(c) { return c.name[currentLang] || c.name.ja; }
-function charCatch(c) { return c.catchphrase[currentLang] || c.catchphrase.ja; }
-function charDesc(c) { return c.description[currentLang] || c.description.ja; }
 function starsStr(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); }
 
 // === GAME STATE ===
@@ -958,6 +990,7 @@ let gameMode = null; // 'ai' or 'pnp'
 let charSlots = []; // character ids for AI slots
 let activeSlot = 0;
 let pnpState = null;
+let lastAiPlayerCount = 4;
 
 // === HELPERS ===
 function $(id) { return document.getElementById(id); }
@@ -965,6 +998,52 @@ function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
+}
+
+function quitToTitle() {
+  game = null;
+  gameMode = null;
+  pnpState = null;
+  showScreen('screen-title');
+}
+
+// === MODALS ===
+function showQuitConfirm(source) {
+  $('modal-quit-msg').textContent = t(source === 'endHere' ? 'endHereMsg' : 'quitMsg');
+  $('btn-quit-yes').textContent = t(source === 'endHere' ? 'endHereYes' : 'quitYes');
+  $('btn-quit-no').textContent = t(source === 'endHere' ? 'endHereNo' : 'quitNo');
+  $('modal-quit').style.display = 'flex';
+  $('modal-quit').dataset.source = source;
+}
+
+function hideQuitConfirm() {
+  $('modal-quit').style.display = 'none';
+}
+
+function showPause() {
+  $('overlay-pause').style.display = 'flex';
+}
+
+function hidePause() {
+  $('overlay-pause').style.display = 'none';
+}
+
+function showRulesModal() {
+  $('rules-modal-body').innerHTML = t('rulesHTML');
+  $('modal-rules').style.display = 'flex';
+}
+
+function hideRulesModal() {
+  $('modal-rules').style.display = 'none';
+}
+
+function showCharDetail(charId) {
+  const c = getChar(charId);
+  if (!c) return;
+  $('modal-char-icon').textContent = c.icon;
+  $('modal-char-name').textContent = charName(c);
+  $('modal-char-stars').textContent = starsStr(c.stars);
+  $('modal-char').style.display = 'flex';
 }
 
 // === AI CHARACTER CHOICE ===
@@ -995,7 +1074,6 @@ function processRound(choices) {
   let rule3Triggered = false;
   let exactMatch = false;
 
-  // Rule 3 check
   if (rules.includes(3)) {
     const has0 = aliveIdx.some(i => choices[i] === 0);
     const pickers100 = aliveIdx.filter(i => choices[i] === 100);
@@ -1006,7 +1084,6 @@ function processRound(choices) {
   }
 
   if (!rule3Triggered) {
-    // Rule 1: duplicates invalid
     if (rules.includes(1)) {
       const cnt = {};
       aliveIdx.forEach(i => { const c = choices[i]; cnt[c] = (cnt[c] || 0) + 1; });
@@ -1026,7 +1103,6 @@ function processRound(choices) {
     }
   }
 
-  // Scoring
   const basePenalty = exactMatch ? -2 : -1;
   const ptChanges = {};
   aliveIdx.forEach(i => {
@@ -1034,7 +1110,6 @@ function processRound(choices) {
   });
   aliveIdx.forEach(i => { players[i].points += ptChanges[i]; });
 
-  // Eliminations
   const newElim = [];
   aliveIdx.forEach(i => {
     if (players[i].points <= -10 && players[i].alive) {
@@ -1083,6 +1158,7 @@ function updateAiCountLabel() {
 
 function initCharSelect() {
   const count = parseInt($('ai-player-count').value);
+  lastAiPlayerCount = count;
   const aiCount = count - 1;
   charSlots = new Array(aiCount).fill(null);
   activeSlot = 0;
@@ -1097,11 +1173,11 @@ function renderSlots() {
     const c = cid ? getChar(cid) : null;
     const isActive = i === activeSlot;
     if (c) {
-      return `<div class="slot-card${isActive ? ' active-slot' : ''}" data-slot="${i}" style="--char-color:${c.color}">
+      return `<div class="slot-card${isActive ? ' active-slot' : ''}" data-slot="${i}">
         <span class="slot-icon">${c.icon}</span>
         <div class="slot-info">
           <div class="slot-name" style="color:${c.color}">AI ${i + 1}: ${charName(c)}</div>
-          <div class="slot-catch">${charCatch(c)}</div>
+          <div class="slot-stars">${starsStr(c.stars)}</div>
         </div>
         <button class="slot-btn" data-slot-random="${i}">${t('slotRandom')}</button>
       </div>`;
@@ -1117,7 +1193,6 @@ function renderSlots() {
   }).join('');
   $('slot-list').innerHTML = html;
 
-  // Slot click → activate
   $('slot-list').querySelectorAll('.slot-card').forEach(el => {
     el.addEventListener('click', function(e) {
       if (e.target.classList.contains('slot-btn')) return;
@@ -1126,7 +1201,6 @@ function renderSlots() {
     });
   });
 
-  // Slot random buttons
   $('slot-list').querySelectorAll('[data-slot-random]').forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
@@ -1141,33 +1215,29 @@ function renderSlots() {
 function renderCharGrid() {
   const html = CHARACTERS.map(c => {
     return `<div class="char-card" data-char="${c.id}" style="--char-color:${c.color}">
-      <span class="char-card-info" data-char-info="${c.id}">i</span>
       <span class="char-card-icon">${c.icon}</span>
       <span class="char-card-name">${charName(c)}</span>
       <span class="char-card-stars">${starsStr(c.stars)}</span>
-      <span class="char-card-catch">${charCatch(c)}</span>
     </div>`;
   }).join('');
   $('char-grid').innerHTML = html;
 
-  // Tap / long-press handling
   $('char-grid').querySelectorAll('.char-card').forEach(el => {
     let pressTimer = null;
     let isLong = false;
 
-    el.addEventListener('pointerdown', function(e) {
-      if (e.target.classList.contains('char-card-info')) return;
+    el.addEventListener('pointerdown', function() {
       isLong = false;
+      const cid = this.dataset.char;
       pressTimer = setTimeout(() => {
         isLong = true;
-        showCharDetail(this.dataset.char);
+        showCharDetail(cid);
         if (navigator.vibrate) navigator.vibrate(30);
       }, 500);
     });
 
-    el.addEventListener('pointerup', function(e) {
+    el.addEventListener('pointerup', function() {
       clearTimeout(pressTimer);
-      if (e.target.classList.contains('char-card-info')) return;
       if (!isLong) {
         selectCharForSlot(this.dataset.char);
       }
@@ -1177,19 +1247,10 @@ function renderCharGrid() {
       clearTimeout(pressTimer);
     });
   });
-
-  // Info buttons
-  $('char-grid').querySelectorAll('[data-char-info]').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showCharDetail(this.dataset.charInfo);
-    });
-  });
 }
 
 function selectCharForSlot(charId) {
   charSlots[activeSlot] = charId;
-  // Auto-advance to next empty slot
   const nextEmpty = charSlots.findIndex((s, i) => i > activeSlot && s === null);
   if (nextEmpty !== -1) {
     activeSlot = nextEmpty;
@@ -1203,14 +1264,12 @@ function selectCharForSlot(charId) {
 function animateSlotRandom(slotIdx) {
   let count = 0;
   const interval = setInterval(() => {
-    const rnd = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
-    charSlots[slotIdx] = rnd.id;
+    charSlots[slotIdx] = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)].id;
     renderSlots();
     count++;
     if (count >= 10) {
       clearInterval(interval);
-      const final = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
-      charSlots[slotIdx] = final.id;
+      charSlots[slotIdx] = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)].id;
       renderSlots();
     }
   }, 50);
@@ -1238,19 +1297,7 @@ function updateStartButton() {
   $('btn-start-battle').disabled = charSlots.some(s => s === null);
 }
 
-function showCharDetail(charId) {
-  const c = getChar(charId);
-  if (!c) return;
-  $('modal-char-icon').textContent = c.icon;
-  $('modal-char-name').textContent = charName(c);
-  $('modal-char-catch').textContent = charCatch(c);
-  $('modal-char-stars').textContent = t('difficulty') + ': ' + starsStr(c.stars);
-  $('modal-char-desc').textContent = charDesc(c);
-  $('modal-char').style.display = 'flex';
-}
-
 function startAIGame() {
-  const count = parseInt($('ai-player-count').value);
   gameMode = 'ai';
   game = {
     players: [],
@@ -1260,13 +1307,11 @@ function startAIGame() {
     roundHistory: [],
     gameOver: false
   };
-  // Human player
   game.players.push({
     name: t('you'), points: 0, alive: true,
     isHuman: true, color: COLORS[0], charId: null
   });
-  // AI players
-  charSlots.forEach((cid, i) => {
+  charSlots.forEach((cid) => {
     const c = getChar(cid);
     game.players.push({
       name: charName(c), points: 0, alive: true,
@@ -1363,29 +1408,22 @@ function renderResult(res) {
   $('result-list').innerHTML = rh;
 
   let eh = '';
-  if (res.rule3Triggered) {
-    eh += '<div class="event-box event-special">' + t('eventRule3') + '</div>';
-  }
-  if (res.exactMatch) {
-    eh += '<div class="event-box event-special">' + t('eventExact') + '</div>';
-  }
+  if (res.rule3Triggered) eh += '<div class="event-box event-special">' + t('eventRule3') + '</div>';
+  if (res.exactMatch) eh += '<div class="event-box event-special">' + t('eventExact') + '</div>';
   if (res.invalidPs.length > 0) {
     const names = res.invalidPs.map(i => game.players[i].name).join(', ');
     eh += '<div class="event-box event-rule">' + t('eventDuplicate', { names }) + '</div>';
   }
-  if (res.newElim.length > 0) {
-    res.newElim.forEach(i => {
-      eh += '<div class="event-box event-elim">' + t('eventElim', { name: game.players[i].name }) + '</div>';
-    });
-  }
-  if (res.newRules.length > 0) {
-    res.newRules.forEach(r => {
-      eh += '<div class="event-box event-rule">' + t('eventNewRule' + r) + '</div>';
-    });
-  }
+  res.newElim.forEach(i => {
+    eh += '<div class="event-box event-elim">' + t('eventElim', { name: game.players[i].name }) + '</div>';
+  });
+  res.newRules.forEach(r => {
+    eh += '<div class="event-box event-rule">' + t('eventNewRule' + r) + '</div>';
+  });
   $('result-events').innerHTML = eh;
 
   $('btn-next').textContent = res.isOver ? t('gameEnd') : t('nextRound');
+  $('btn-end-here').style.display = res.isOver ? 'none' : '';
   showScreen('screen-result');
 }
 
@@ -1407,7 +1445,6 @@ function renderGameOver() {
       if (winner) bh += '<div style="margin-top:8px;font-size:.85rem;color:var(--text-dim)">' + t('winnerIs', { name: winner.name }) + '</div>';
     }
   } else {
-    // PnP
     const winner = p.find(pl => pl.alive);
     if (winner) {
       bh = '<h2 style="color:var(--gold);animation:pulse 1.5s infinite">' + t('pnpWinnerAnnounce', { name: winner.name }) + '</h2>';
@@ -1433,6 +1470,9 @@ function renderGameOver() {
   $('standing-list').innerHTML = sh;
   $('gameover-stats').textContent = t('totalRounds', { n: game.round });
 
+  // Show/hide change chars button based on mode
+  $('btn-change-chars').style.display = gameMode === 'ai' ? '' : 'none';
+
   // Save history
   if (gameMode === 'ai') {
     saveAIHistory(rankings);
@@ -1441,6 +1481,39 @@ function renderGameOver() {
   }
 
   showScreen('screen-gameover');
+}
+
+// === PLAY AGAIN ===
+function playAgain() {
+  if (gameMode === 'ai') {
+    startAIGame();
+  } else {
+    // Re-use same player names
+    const names = game.players.map(p => p.name);
+    gameMode = 'pnp';
+    game = {
+      players: [],
+      round: 1,
+      eliminatedCount: 0,
+      eliminationOrder: [],
+      roundHistory: [],
+      gameOver: false
+    };
+    names.forEach((name, i) => {
+      game.players.push({
+        name, points: 0, alive: true, isHuman: true,
+        color: COLORS[i], charId: null
+      });
+    });
+    pnpState = { currentPlayerIndex: 0, choices: {}, phase: 'privacy' };
+    startPnPTurn();
+  }
+}
+
+function goToCharSelect() {
+  $('ai-player-count').value = lastAiPlayerCount;
+  updateAiCountLabel();
+  initCharSelect();
 }
 
 // === MODE: PASS AND PLAY ===
@@ -1493,7 +1566,6 @@ function getAlivePnPPlayers() {
 }
 
 function startPnPTurn() {
-  const alivePlayers = getAlivePnPPlayers();
   pnpState.currentPlayerIndex = 0;
   pnpState.choices = {};
   pnpState.phase = 'privacy';
@@ -1503,7 +1575,6 @@ function startPnPTurn() {
 function showPnPPrivacy() {
   const alivePlayers = getAlivePnPPlayers();
   if (pnpState.currentPlayerIndex >= alivePlayers.length) {
-    // All done, show reveal
     showPnPReveal();
     return;
   }
@@ -1524,12 +1595,9 @@ function showPnPInput() {
   const p = game.players[pIdx];
 
   $('pnp-round-badge').textContent = t('round', { n: game.round });
-  const alive = game.players.filter(pl => pl.alive).length;
-  $('pnp-alive-count').textContent = t('remaining', { n: alive });
   $('pnp-input-name').textContent = p.name;
   $('pnp-input-name').style.color = p.color;
 
-  // Active rules
   const rules = getActiveRules();
   let rh = '';
   if (rules.includes(1)) rh += '<span class="badge badge-rule">' + t('ruleDuplicate') + '</span>';
@@ -1689,6 +1757,9 @@ function getChoice(prefix) {
 // Language
 $('lang-toggle').addEventListener('click', toggleLang);
 
+// Title: Rules
+$('btn-title-rules').addEventListener('click', showRulesModal);
+
 // Mode buttons
 $('btn-mode-ai').addEventListener('click', function() {
   updateAiCountLabel();
@@ -1717,10 +1788,46 @@ $('btn-back-char').addEventListener('click', function() { showScreen('screen-ai-
 $('btn-all-random').addEventListener('click', allSlotsRandom);
 $('btn-start-battle').addEventListener('click', startAIGame);
 
-// Modal
+// Char detail modal
 $('modal-char-close').addEventListener('click', function() { $('modal-char').style.display = 'none'; });
 $('modal-char').addEventListener('click', function(e) {
   if (e.target === this) this.style.display = 'none';
+});
+
+// Game nav: Home & Pause (AI)
+$('btn-game-home').addEventListener('click', function() { showQuitConfirm('game'); });
+$('btn-game-pause').addEventListener('click', showPause);
+
+// Game nav: Home & Pause (PnP)
+$('btn-pnp-game-home').addEventListener('click', function() { showQuitConfirm('game'); });
+$('btn-pnp-game-pause').addEventListener('click', showPause);
+
+// Quit confirm modal
+$('btn-quit-yes').addEventListener('click', function() {
+  hideQuitConfirm();
+  hidePause();
+  quitToTitle();
+});
+$('btn-quit-no').addEventListener('click', hideQuitConfirm);
+$('modal-quit').addEventListener('click', function(e) {
+  if (e.target === this) hideQuitConfirm();
+});
+
+// Pause overlay
+$('btn-pause-resume').addEventListener('click', hidePause);
+$('btn-pause-rules').addEventListener('click', function() {
+  hidePause();
+  showRulesModal();
+});
+$('btn-pause-home').addEventListener('click', function() {
+  hidePause();
+  showQuitConfirm('pause');
+});
+
+// Rules modal
+$('btn-rules-close').addEventListener('click', hideRulesModal);
+$('modal-rules').addEventListener('click', function(e) {
+  if (e.target === this) hideRulesModal();
 });
 
 // Game: AI choice sync
@@ -1759,12 +1866,15 @@ $('btn-next').addEventListener('click', function() {
   }
 });
 
-$('btn-return').addEventListener('click', function() {
-  game = null;
-  gameMode = null;
-  pnpState = null;
-  showScreen('screen-title');
+// Result: End Here
+$('btn-end-here').addEventListener('click', function() {
+  showQuitConfirm('endHere');
 });
+
+// Gameover buttons
+$('btn-play-again').addEventListener('click', playAgain);
+$('btn-change-chars').addEventListener('click', goToCharSelect);
+$('btn-go-home').addEventListener('click', quitToTitle);
 
 // PnP setup
 $('pnp-player-count').addEventListener('input', function() {
