@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <title>てんびん - ダイヤのキング</title>
 <style>
+/* ========== BASE ========== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0f0f1a;--bg-card:#1a1a2e;--bg-card2:#222244;
@@ -18,6 +19,7 @@
   --text:#e8e8e8;--text-muted:#999;--text-dim:#666;
   --success:#10b981;--danger:#ef4444;--info:#0ea5e9;--purple:#a855f7;
   --border:#2a2a4a;--radius:12px;--radius-sm:8px;
+  --char-color:#888;
 }
 @media(prefers-color-scheme:light){
   :root{
@@ -46,16 +48,24 @@ body{
 .screen>*:nth-child(4){animation-delay:.15s}
 .screen>*:nth-child(5){animation-delay:.2s}
 .screen>*:nth-child(6){animation-delay:.25s}
+.screen>*:nth-child(7){animation-delay:.3s}
+.screen>*:nth-child(8){animation-delay:.35s}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 @keyframes scaleIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slotCycle{
+  0%{transform:translateY(-100%);opacity:0}
+  10%{transform:translateY(0);opacity:1}
+  90%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(100%);opacity:0}
+}
 
-/* Typography */
+/* ========== TYPOGRAPHY ========== */
 h1{font-size:2rem;font-weight:800;letter-spacing:.05em}
 h2{font-size:1.4rem;font-weight:700}
 h3{font-size:1.1rem;font-weight:600}
 
-/* Buttons */
+/* ========== BUTTONS ========== */
 .btn{
   display:block;width:100%;padding:14px;font-size:1.05rem;font-weight:700;
   border:none;border-radius:var(--radius);cursor:pointer;
@@ -69,23 +79,18 @@ h3{font-size:1.1rem;font-weight:600}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dim));color:#1a1a2e}
 .btn-sm{padding:10px 16px;font-size:.9rem;width:auto;display:inline-block}
 .btn-back{background:none;border:none;color:var(--text-muted);font-size:1rem;cursor:pointer;padding:8px 0;text-align:left}
+.btn-icon{background:none;border:none;cursor:pointer;font-size:1rem;padding:4px}
 
-/* Cards */
+/* ========== CARDS & BADGES ========== */
 .card{background:var(--bg-card);border-radius:var(--radius);padding:14px;border:1px solid var(--border)}
-
-/* Badges */
-.badge{
-  display:inline-block;padding:4px 10px;border-radius:20px;
-  font-size:.75rem;font-weight:600;
-}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
 .badge-rule{background:rgba(233,69,96,.15);color:var(--accent);border:1px solid rgba(233,69,96,.3)}
 .badge-rule2{background:rgba(245,197,24,.15);color:var(--gold);border:1px solid rgba(245,197,24,.3)}
 .badge-rule3{background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3)}
 .badge-round{background:var(--bg-card2);color:var(--text-muted);font-size:.85rem;padding:6px 14px}
 .badge-beta{background:rgba(14,165,233,.12);color:var(--info);border:1px solid rgba(14,165,233,.3);font-size:.7rem;padding:3px 10px;letter-spacing:.05em}
-.ai-notice{color:var(--text-dim);font-size:.72rem;text-align:center;padding:4px 0;line-height:1.5}
 
-/* Slider */
+/* ========== SLIDER & INPUT ========== */
 input[type="range"]{
   -webkit-appearance:none;appearance:none;width:100%;height:8px;
   background:var(--border);border-radius:4px;outline:none;
@@ -99,29 +104,59 @@ input[type="range"]::-moz-range-thumb{
   width:30px;height:30px;background:var(--gold);border-radius:50%;
   cursor:pointer;border:none;box-shadow:0 2px 8px rgba(245,197,24,.4);
 }
-
-/* Number Input */
 .choice-input{
   font-size:3rem;font-weight:800;text-align:center;width:100px;
   color:var(--gold);background:transparent;border:none;
-  border-bottom:2px solid var(--gold);outline:none;
-  font-family:inherit;
+  border-bottom:2px solid var(--gold);outline:none;font-family:inherit;
 }
 .choice-input:focus{border-bottom-color:var(--accent)}
+input[type="text"].name-input{
+  width:100%;padding:10px 12px;font-size:1rem;
+  background:var(--bg-card2);color:var(--text);border:1px solid var(--border);
+  border-radius:var(--radius-sm);outline:none;font-family:inherit;
+}
+input[type="text"].name-input:focus{border-color:var(--gold)}
+
+/* ========== LANG TOGGLE ========== */
+.lang-toggle{
+  position:absolute;top:calc(env(safe-area-inset-top,20px) + 14px);right:16px;
+  display:flex;align-items:center;gap:4px;
+  padding:6px 12px;border-radius:20px;
+  background:var(--bg-card);border:1px solid var(--border);
+  cursor:pointer;font-size:.8rem;font-weight:600;z-index:10;
+  transition:transform .1s;
+}
+.lang-toggle:active{transform:scale(.95)}
 
 /* ========== TITLE SCREEN ========== */
-.title-logo{text-align:center;padding:40px 0 20px}
+.title-wrap{position:relative}
+.title-logo{text-align:center;padding:40px 0 16px}
 .title-diamond{width:60px;height:60px;margin:0 auto 16px}
 .title-diamond svg{width:100%;height:100%}
 .title-sub{color:var(--accent);font-size:.9rem;letter-spacing:.2em;margin-top:4px}
-.title-quote{color:var(--text-muted);font-size:.8rem;text-align:center;margin:16px 0;font-style:italic;line-height:1.6}
-.title-settings{margin:20px 0}
-.title-settings label{font-size:.9rem;color:var(--text-muted);display:block;margin-bottom:8px}
-.player-count-row{display:flex;align-items:center;gap:10px}
-.player-count-row span{color:var(--text-muted);font-size:.85rem;min-width:20px;text-align:center}
-.player-count-val{font-size:1.3rem;font-weight:700;color:var(--gold);text-align:center;margin-top:6px}
-.title-buttons{display:flex;flex-direction:column;gap:10px;margin-top:24px}
-details.rules-detail{margin-top:20px}
+.title-quote{color:var(--text-muted);font-size:.8rem;text-align:center;margin:12px 0 4px;font-style:italic;line-height:1.6}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.mode-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:18px 10px;gap:4px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;
+  transition:transform .1s;text-align:center;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  position:relative;
+}
+.mode-btn:active{transform:scale(.97)}
+.mode-btn.primary{border-color:var(--accent);background:rgba(233,69,96,.06)}
+.mode-btn .mode-icon{font-size:1.6rem}
+.mode-btn .mode-label{font-weight:700;font-size:.9rem}
+.mode-btn .mode-desc{font-size:.7rem;color:var(--text-muted)}
+.mode-btn.disabled{opacity:.45;pointer-events:none}
+.mode-btn .coming-soon-tag{
+  position:absolute;top:6px;right:6px;
+  font-size:.55rem;background:var(--bg-card2);color:var(--text-dim);
+  padding:2px 6px;border-radius:4px;border:1px solid var(--border);
+}
+details.rules-detail{margin-top:16px}
 details.rules-detail summary{
   color:var(--text-muted);font-size:.9rem;cursor:pointer;padding:8px 0;
   list-style:none;display:flex;align-items:center;gap:6px;
@@ -135,6 +170,63 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .rules-content h4{color:var(--text);margin:10px 0 4px;font-size:.88rem}
 .rules-content h4:first-child{margin-top:0}
 .rules-content ul{padding-left:1.2em}
+
+/* ========== AI COUNT SCREEN ========== */
+.setup-title{text-align:center;margin:20px 0}
+.player-count-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.player-count-row span{color:var(--text-muted);font-size:.85rem;min-width:20px;text-align:center}
+.player-count-val{font-size:1.2rem;font-weight:700;color:var(--gold);text-align:center;margin-top:8px}
+.setup-actions{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+
+/* ========== CHARACTER SELECT ========== */
+.char-select-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.char-select-header h2{flex:1;font-size:1.15rem}
+.slot-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.slot-card{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:var(--bg-card);border:2px solid var(--border);
+  border-radius:var(--radius-sm);cursor:pointer;
+  transition:border-color .2s,background .2s;min-height:52px;
+}
+.slot-card.active-slot{border-color:var(--gold);background:rgba(245,197,24,.04)}
+.slot-card.filled{cursor:default}
+.slot-icon{font-size:1.4rem;width:32px;text-align:center;flex-shrink:0}
+.slot-info{flex:1;min-width:0}
+.slot-name{font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot-catch{font-size:.72rem;color:var(--text-muted)}
+.slot-empty{color:var(--text-dim);font-size:.85rem;font-style:italic}
+.slot-btn{
+  padding:5px 10px;font-size:.75rem;border-radius:6px;
+  background:var(--bg-card2);border:1px solid var(--border);
+  color:var(--text-muted);cursor:pointer;flex-shrink:0;
+  transition:transform .1s;
+}
+.slot-btn:active{transform:scale(.95)}
+.char-grid-label{font-size:.8rem;color:var(--text-muted);margin-bottom:8px;text-align:center}
+.char-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;
+}
+.char-card{
+  display:flex;flex-direction:column;align-items:center;
+  padding:10px 6px 8px;gap:2px;
+  background:var(--bg-card);border:2px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;
+  transition:transform .1s,border-color .2s;text-align:center;
+  position:relative;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.char-card:active{transform:scale(.95)}
+.char-card.highlighted{border-color:var(--char-color);box-shadow:0 0 12px rgba(255,255,255,.08)}
+.char-card-icon{font-size:1.8rem;line-height:1}
+.char-card-name{font-size:.75rem;font-weight:600;line-height:1.2}
+.char-card-stars{font-size:.6rem;color:var(--gold);letter-spacing:1px}
+.char-card-catch{font-size:.62rem;color:var(--text-muted);line-height:1.2}
+.char-card-info{
+  position:absolute;top:3px;right:4px;font-size:.65rem;
+  color:var(--text-dim);cursor:pointer;line-height:1;
+  width:18px;height:18px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:var(--bg-card2);
+}
 
 /* ========== GAME SCREEN ========== */
 .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -151,6 +243,7 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .player-name small{font-weight:400;color:var(--text-muted);font-size:.75rem;margin-left:4px}
 .player-pts{font-weight:700;font-size:1rem;min-width:50px;text-align:right}
 .player-status{font-size:.75rem;color:var(--danger);font-weight:600}
+.ai-notice{color:var(--text-dim);font-size:.72rem;text-align:center;padding:4px 0;line-height:1.5}
 .input-section{
   background:var(--bg-card);border-radius:var(--radius);padding:16px;
   border:1px solid var(--border);
@@ -222,9 +315,14 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 /* ========== HISTORY SCREEN ========== */
 .history-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .history-header h2{flex:1}
-.stats-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;
+.history-tabs{display:flex;gap:0;margin-bottom:16px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border)}
+.history-tab{
+  flex:1;padding:10px;text-align:center;font-size:.85rem;font-weight:600;
+  background:var(--bg-card);color:var(--text-muted);cursor:pointer;
+  border:none;transition:background .2s,color .2s;
 }
+.history-tab.active{background:var(--accent);color:#fff}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
 .stat-card{
   text-align:center;padding:12px;background:var(--bg-card);
   border-radius:var(--radius-sm);border:1px solid var(--border);
@@ -244,64 +342,139 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
 .history-result.lose{color:var(--text-muted)}
 .no-data{text-align:center;color:var(--text-dim);padding:40px 0;font-size:.9rem}
 .btn-clear{margin-top:20px}
+
+/* ========== PASS AND PLAY ========== */
+.pnp-name-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.pnp-name-row{display:flex;align-items:center;gap:10px}
+.pnp-name-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.pnp-name-label{font-size:.85rem;color:var(--text-muted);min-width:32px;flex-shrink:0}
+.pnp-privacy{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1;text-align:center;gap:12px;
+}
+.pnp-turn-icon{font-size:3rem}
+.pnp-turn-name{font-size:1.8rem;font-weight:800;color:var(--gold)}
+.pnp-turn-warning{color:var(--text-muted);font-size:.9rem;line-height:1.5}
+.pnp-done-box{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1;text-align:center;gap:16px;
+}
+.pnp-done-check{font-size:3rem}
+.pnp-done-text{font-size:1.1rem;font-weight:600;color:var(--success)}
+.pnp-done-pass{color:var(--text-muted);font-size:.9rem}
+.pnp-reveal-box{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1;text-align:center;gap:20px;
+}
+.pnp-reveal-text{font-size:1.1rem;font-weight:600}
+.pnp-reveal-players{font-size:.85rem;color:var(--text-muted);line-height:1.6}
+
+/* ========== MODAL ========== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;padding:20px;animation:fadeUp .2s ease-out;
+}
+.modal-content{
+  background:var(--bg-card);border-radius:var(--radius);
+  padding:24px;max-width:320px;width:100%;
+  border:1px solid var(--border);text-align:center;
+  animation:scaleIn .25s ease-out;
+}
+.modal-icon{font-size:2.5rem;margin-bottom:8px}
+.modal-name{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+.modal-catch{font-size:.85rem;color:var(--text-muted);margin-bottom:8px}
+.modal-stars{font-size:.85rem;color:var(--gold);margin-bottom:12px}
+.modal-desc{font-size:.85rem;color:var(--text);line-height:1.6;text-align:left;margin-bottom:16px}
 </style>
 </head>
 <body>
 
 <!-- ===== TITLE SCREEN ===== -->
 <section id="screen-title" class="screen active">
-  <div class="title-logo">
-    <div class="title-diamond"><svg viewBox="0 0 60 60"><polygon points="30,4 56,30 30,56 4,30" fill="none" stroke="#e94560" stroke-width="2.5"/><text x="30" y="36" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#e94560">K</text></svg></div>
-    <h1>てんびん</h1>
-    <div class="title-sub">ダイヤのキング</div>
-    <div style="margin-top:10px"><span class="badge badge-beta">v0.1 BETA - AI開発中</span></div>
-  </div>
-  <p class="title-quote">「全員の選んだ数字の平均 × 0.8 に<br>最も近い数字を選べ。」</p>
-  <div class="title-settings">
-    <label>プレイヤー数</label>
-    <div class="player-count-row">
-      <span>2</span>
-      <input type="range" min="2" max="5" value="4" id="player-count">
-      <span>5</span>
+  <div class="title-wrap">
+    <div class="lang-toggle" id="lang-toggle">
+      <span>🌐</span> <span id="lang-label">JP</span>
     </div>
-    <div class="player-count-val" id="player-count-val">4人（あなた + AI×3）</div>
+    <div class="title-logo">
+      <div class="title-diamond"><svg viewBox="0 0 60 60"><polygon points="30,4 56,30 30,56 4,30" fill="none" stroke="#e94560" stroke-width="2.5"/><text x="30" y="36" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#e94560">K</text></svg></div>
+      <h1 data-i18n="title">てんびん</h1>
+      <div class="title-sub" data-i18n="subtitle">ダイヤのキング</div>
+      <div style="margin-top:10px"><span class="badge badge-beta">v0.2 BETA</span></div>
+    </div>
   </div>
-  <div class="title-buttons">
-    <button class="btn btn-primary" id="btn-start">ゲーム開始</button>
-    <button class="btn btn-secondary" id="btn-history">過去の戦績</button>
+  <p class="title-quote" data-i18n="quote">「全員の選んだ数字の平均 × 0.8 に最も近い数字を選べ。」</p>
+  <div class="mode-grid">
+    <div class="mode-btn primary" id="btn-mode-ai">
+      <span class="mode-icon">⚔️</span>
+      <span class="mode-label" data-i18n="modeAI">vs AI</span>
+      <span class="mode-desc" data-i18n="modeAIDesc">AIキャラクターと対戦</span>
+    </div>
+    <div class="mode-btn" id="btn-mode-pnp">
+      <span class="mode-icon">🤝</span>
+      <span class="mode-label" data-i18n="modePnP">みんなで遊ぶ</span>
+      <span class="mode-desc" data-i18n="modePnPDesc">1台のデバイスで</span>
+    </div>
+    <div class="mode-btn disabled" id="btn-mode-online">
+      <span class="coming-soon-tag">Coming Soon</span>
+      <span class="mode-icon">🌐</span>
+      <span class="mode-label" data-i18n="modeOnline">オンライン対戦</span>
+      <span class="mode-desc" data-i18n="modeOnlineDesc">準備中</span>
+    </div>
+    <div class="mode-btn" id="btn-mode-history">
+      <span class="mode-icon">📊</span>
+      <span class="mode-label" data-i18n="modeHistory">戦績</span>
+      <span class="mode-desc" data-i18n="modeHistoryDesc">過去の記録を見る</span>
+    </div>
   </div>
   <details class="rules-detail">
-    <summary>ルール説明</summary>
-    <div class="rules-content">
-      <h4>基本ルール</h4>
-      <ul>
-        <li>各プレイヤーは 0〜100 の整数を1つ選ぶ</li>
-        <li>全員の平均値 × 0.8 ＝ 目標値</li>
-        <li>目標値に最も近い数字を選んだ人が勝者</li>
-        <li>勝者以外は <strong>−1ポイント</strong></li>
-        <li><strong>−10ポイント</strong> で脱落</li>
-        <li>最後に残った1人が優勝</li>
-      </ul>
-      <h4>追加ルール（脱落者が出るたびに発動）</h4>
-      <ul>
-        <li>🔴 1人目脱落後:「同値無効」— 同じ数字を選んだプレイヤーは無効＋1ポイント減点</li>
-        <li>🟡 2人目脱落後:「ピタリ賞」— 正解値ぴったりが出たら敗者は −2ポイント</li>
-        <li>🟣 3人目脱落後:「0→100」— 誰かが0を選んだら100を選んだ人が自動的に勝者</li>
-      </ul>
-    </div>
+    <summary data-i18n="rulesLabel">ルール説明</summary>
+    <div class="rules-content" id="rules-content"></div>
   </details>
+</section>
+
+<!-- ===== AI: PLAYER COUNT ===== -->
+<section id="screen-ai-count" class="screen">
+  <button class="btn-back" id="btn-back-ai-count" data-i18n="back">← 戻る</button>
+  <div class="setup-title">
+    <h2 data-i18n="modeAI">vs AI</h2>
+  </div>
+  <div style="margin-top:20px">
+    <label style="font-size:.9rem;color:var(--text-muted)" data-i18n="playerCount">プレイヤー数</label>
+    <div class="player-count-row">
+      <span>2</span>
+      <input type="range" min="2" max="5" value="4" id="ai-player-count">
+      <span>5</span>
+    </div>
+    <div class="player-count-val" id="ai-player-count-val"></div>
+  </div>
+  <div class="setup-actions">
+    <button class="btn btn-primary" id="btn-ai-next" data-i18n="next">次へ</button>
+  </div>
+</section>
+
+<!-- ===== AI: CHARACTER SELECT ===== -->
+<section id="screen-char-select" class="screen">
+  <div class="char-select-header">
+    <button class="btn-back" id="btn-back-char">← </button>
+    <h2 data-i18n="charSelectTitle">AIキャラクター選択</h2>
+  </div>
+  <button class="btn btn-secondary btn-sm" id="btn-all-random" style="margin-bottom:12px">🎲 <span data-i18n="allRandom">全員ランダム</span></button>
+  <div class="slot-list" id="slot-list"></div>
+  <div class="char-grid-label" data-i18n="charGridLabel">タップで選択 / 長押しで詳細</div>
+  <div class="char-grid" id="char-grid"></div>
+  <button class="btn btn-gold" id="btn-start-battle" disabled data-i18n="startBattle">対戦開始</button>
 </section>
 
 <!-- ===== GAME SCREEN ===== -->
 <section id="screen-game" class="screen">
   <div class="game-header">
-    <span class="badge badge-round" id="round-badge">ラウンド 1</span>
+    <span class="badge badge-round" id="round-badge"></span>
     <span style="font-size:.8rem;color:var(--text-dim)" id="alive-count"></span>
   </div>
   <div class="active-rules" id="active-rules"></div>
   <div class="player-list" id="player-list"></div>
-  <div class="ai-notice">※現在のAIは簡易版（ランダム/固定値）です。強化学習版を開発中</div>
-  <div class="input-section">
+  <div class="input-section" id="input-section">
     <div class="input-value-row">
       <input type="number" class="choice-input" id="choice-input" min="0" max="100" value="50" inputmode="numeric" pattern="[0-9]*">
     </div>
@@ -311,29 +484,29 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
       <span>100</span>
     </div>
     <div class="adjust-row">
-      <button class="btn-adjust" id="btn-minus5">−5</button>
-      <button class="btn-adjust" id="btn-minus1">−1</button>
+      <button class="btn-adjust" id="btn-minus5">-5</button>
+      <button class="btn-adjust" id="btn-minus1">-1</button>
       <button class="btn-adjust" id="btn-plus1">+1</button>
       <button class="btn-adjust" id="btn-plus5">+5</button>
     </div>
-    <button class="btn btn-gold" id="btn-confirm">決定</button>
+    <button class="btn btn-gold" id="btn-confirm" data-i18n="confirm">決定</button>
   </div>
 </section>
 
 <!-- ===== RESULT SCREEN ===== -->
 <section id="screen-result" class="screen">
   <div class="result-header">
-    <span class="badge badge-round" id="result-round-badge">ラウンド 1 結果</span>
+    <span class="badge badge-round" id="result-round-badge"></span>
   </div>
   <div class="target-box">
-    <div class="target-label">目標値</div>
+    <div class="target-label" data-i18n="targetLabel">目標値</div>
     <div class="target-val" id="target-val"></div>
     <div class="target-calc" id="target-calc"></div>
   </div>
   <div class="result-list" id="result-list"></div>
   <div id="result-events"></div>
   <div style="margin-top:auto;padding-top:12px">
-    <button class="btn btn-primary" id="btn-next">次のラウンド</button>
+    <button class="btn btn-primary" id="btn-next" data-i18n="nextRound">次のラウンド</button>
   </div>
 </section>
 
@@ -343,64 +516,742 @@ details.rules-detail[open] summary::before{transform:rotate(90deg)}
   <div class="standing-list" id="standing-list"></div>
   <div class="gameover-stats" id="gameover-stats"></div>
   <div style="margin-top:auto;padding-top:12px">
-    <button class="btn btn-primary" id="btn-return">タイトルに戻る</button>
+    <button class="btn btn-primary" id="btn-return" data-i18n="backToTitle">タイトルに戻る</button>
   </div>
 </section>
 
 <!-- ===== HISTORY SCREEN ===== -->
 <section id="screen-history" class="screen">
   <div class="history-header">
-    <button class="btn-back" id="btn-back-hist">← 戻る</button>
-    <h2>戦績</h2>
+    <button class="btn-back" id="btn-back-hist" data-i18n="back">← 戻る</button>
+    <h2 data-i18n="historyTitle">戦績</h2>
   </div>
-  <div class="stats-grid" id="stats-grid"></div>
-  <div class="history-list" id="history-list"></div>
-  <button class="btn btn-secondary btn-clear" id="btn-clear-hist">戦績をリセット</button>
+  <div class="history-tabs">
+    <button class="history-tab active" id="tab-ai" data-i18n="tabAI">vs AI</button>
+    <button class="history-tab" id="tab-pnp" data-i18n="tabPnP">みんなで</button>
+  </div>
+  <div id="history-ai-content">
+    <div class="stats-grid" id="stats-grid"></div>
+    <div class="history-list" id="history-list"></div>
+  </div>
+  <div id="history-pnp-content" style="display:none">
+    <div class="history-list" id="pnp-history-list"></div>
+  </div>
+  <button class="btn btn-secondary btn-clear" id="btn-clear-hist" data-i18n="clearHistory">戦績をリセット</button>
 </section>
+
+<!-- ===== PNP: SETUP ===== -->
+<section id="screen-pnp-setup" class="screen">
+  <button class="btn-back" id="btn-back-pnp" data-i18n="back">← 戻る</button>
+  <div class="setup-title">
+    <h2 data-i18n="pnpSetupTitle">プレイヤー設定</h2>
+  </div>
+  <div style="margin-top:12px">
+    <label style="font-size:.9rem;color:var(--text-muted)" data-i18n="playerCount">プレイヤー数</label>
+    <div class="player-count-row">
+      <span>2</span>
+      <input type="range" min="2" max="5" value="3" id="pnp-player-count">
+      <span>5</span>
+    </div>
+    <div class="player-count-val" id="pnp-player-count-val"></div>
+  </div>
+  <div class="pnp-name-list" id="pnp-name-list"></div>
+  <div class="setup-actions">
+    <button class="btn btn-primary" id="btn-pnp-start" data-i18n="startGame">ゲーム開始</button>
+  </div>
+</section>
+
+<!-- ===== PNP: TURN ===== -->
+<section id="screen-pnp-turn" class="screen">
+  <!-- Phase: privacy -->
+  <div id="pnp-phase-privacy" class="pnp-privacy">
+    <div class="pnp-turn-icon" id="pnp-turn-icon"></div>
+    <div class="pnp-turn-name" id="pnp-turn-name"></div>
+    <div class="pnp-turn-warning" data-i18n="pnpTurnWarning">他の人は画面を見ないでください</div>
+    <button class="btn btn-primary" id="btn-pnp-ready" style="max-width:240px" data-i18n="pnpReady">準備OK</button>
+  </div>
+  <!-- Phase: input -->
+  <div id="pnp-phase-input" style="display:none">
+    <div class="game-header">
+      <span class="badge badge-round" id="pnp-round-badge"></span>
+      <span style="font-size:.8rem;color:var(--text-dim)" id="pnp-alive-count"></span>
+    </div>
+    <div class="active-rules" id="pnp-active-rules"></div>
+    <div style="text-align:center;margin-bottom:12px">
+      <span style="font-size:1.1rem;font-weight:700;color:var(--gold)" id="pnp-input-name"></span>
+    </div>
+    <div class="input-section">
+      <div class="input-value-row">
+        <input type="number" class="choice-input" id="pnp-choice-input" min="0" max="100" value="50" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <div class="slider-row">
+        <span>0</span>
+        <input type="range" min="0" max="100" value="50" id="pnp-choice-slider">
+        <span>100</span>
+      </div>
+      <div class="adjust-row">
+        <button class="btn-adjust" id="pnp-btn-minus5">-5</button>
+        <button class="btn-adjust" id="pnp-btn-minus1">-1</button>
+        <button class="btn-adjust" id="pnp-btn-plus1">+1</button>
+        <button class="btn-adjust" id="pnp-btn-plus5">+5</button>
+      </div>
+      <button class="btn btn-gold" id="btn-pnp-confirm" data-i18n="confirm">決定</button>
+    </div>
+  </div>
+  <!-- Phase: done -->
+  <div id="pnp-phase-done" style="display:none" class="pnp-done-box">
+    <div class="pnp-done-check">✅</div>
+    <div class="pnp-done-text" data-i18n="pnpInputDone">入力完了</div>
+    <div class="pnp-done-pass" data-i18n="pnpPassDevice">次のプレイヤーへ渡してください</div>
+    <button class="btn btn-secondary" id="btn-pnp-next-player" style="max-width:240px" data-i18n="pnpNextPlayer">次のプレイヤー</button>
+  </div>
+</section>
+
+<!-- ===== PNP: REVEAL ===== -->
+<section id="screen-pnp-reveal" class="screen">
+  <div class="pnp-reveal-box">
+    <div style="font-size:2.5rem">🎉</div>
+    <div class="pnp-reveal-text" data-i18n="pnpAllDone">全員の入力が完了しました</div>
+    <div class="pnp-reveal-players" id="pnp-reveal-players"></div>
+    <button class="btn btn-gold" id="btn-pnp-reveal" style="max-width:280px" data-i18n="pnpReveal">結果を公開</button>
+  </div>
+</section>
+
+<!-- ===== CHARACTER DETAIL MODAL ===== -->
+<div id="modal-char" class="modal-overlay" style="display:none">
+  <div class="modal-content">
+    <div class="modal-icon" id="modal-char-icon"></div>
+    <div class="modal-name" id="modal-char-name"></div>
+    <div class="modal-catch" id="modal-char-catch"></div>
+    <div class="modal-stars" id="modal-char-stars"></div>
+    <div class="modal-desc" id="modal-char-desc"></div>
+    <button class="btn btn-secondary btn-sm" id="modal-char-close" data-i18n="close">閉じる</button>
+  </div>
+</div>
 
 <script>
 /* ========================================
-   てんびん — ダイヤのキング
-   Game Logic & UI
+   てんびん — ダイヤのキング v0.2
    ======================================== */
 
-// ===== Constants =====
-const COLORS = ['#f5c518','#e94560','#0ea5e9','#10b981','#a855f7'];
-const AI_TYPES = ['random','level1','level2'];
+// === i18n ===
+const LANG = {
+  ja: {
+    title: 'てんびん',
+    subtitle: 'ダイヤのキング',
+    quote: '「全員の選んだ数字の平均 × 0.8 に\n最も近い数字を選べ。」',
+    modeAI: 'vs AI',
+    modeAIDesc: 'AIキャラクターと対戦',
+    modePnP: 'みんなで遊ぶ',
+    modePnPDesc: '1台のデバイスで',
+    modeOnline: 'オンライン対戦',
+    modeOnlineDesc: '準備中',
+    modeHistory: '戦績',
+    modeHistoryDesc: '過去の記録を見る',
+    rulesLabel: 'ルール説明',
+    rulesHTML: '<h4>基本ルール</h4><ul><li>各プレイヤーは 0〜100 の整数を1つ選ぶ</li><li>全員の平均値 × 0.8 ＝ 目標値</li><li>目標値に最も近い数字を選んだ人が勝者</li><li>勝者以外は <strong>-1ポイント</strong></li><li><strong>-10ポイント</strong> で脱落</li><li>最後に残った1人が優勝</li></ul><h4>追加ルール（脱落者が出るたびに発動）</h4><ul><li>🔴 1人目脱落後:「同値無効」— 同じ数字を選んだプレイヤーは無効＋1ポイント減点</li><li>🟡 2人目脱落後:「ピタリ賞」— 正解値ぴったりが出たら敗者は -2ポイント</li><li>🟣 3人目脱落後:「0→100」— 誰かが0を選んだら100を選んだ人が自動的に勝者</li></ul>',
+    playerCount: 'プレイヤー数',
+    aiCountVal: '{n}人（あなた + AI×{m}）',
+    pnpCountVal: '{n}人',
+    next: '次へ',
+    back: '← 戻る',
+    charSelectTitle: 'AIキャラクター選択',
+    allRandom: '全員ランダム',
+    charGridLabel: 'タップで選択 / 長押しで詳細',
+    startBattle: '対戦開始',
+    slotEmpty: '未選択',
+    slotRandom: 'ランダム',
+    difficulty: '難易度',
+    close: '閉じる',
+    round: 'ラウンド {n}',
+    roundResult: 'ラウンド {n} 結果',
+    remaining: '残り {n}人',
+    confirm: '決定',
+    targetLabel: '目標値',
+    targetCalc: '平均 {avg} × 0.8',
+    distLabel: '差 {d}',
+    nextRound: '次のラウンド',
+    gameEnd: 'ゲーム終了',
+    victory: '👑 優勝',
+    yourWin: 'あなたの勝利！',
+    gameOverTitle: 'GAME OVER',
+    youEliminated: 'あなたは脱落しました',
+    pnpGameOver: 'ゲーム終了',
+    winnerIs: '勝者: {name}',
+    totalRounds: '全 {n} ラウンド',
+    backToTitle: 'タイトルに戻る',
+    historyTitle: '戦績',
+    tabAI: 'vs AI',
+    tabPnP: 'みんなで',
+    totalGames: '対戦数',
+    totalWins: '勝利数',
+    winRate: '勝率',
+    avgRank: '平均順位',
+    noData: 'まだ対戦記録がありません',
+    clearHistory: '戦績をリセット',
+    clearConfirm: '戦績を全てリセットしますか？',
+    pnpSetupTitle: 'プレイヤー設定',
+    pnpNamePlaceholder: '名前を入力',
+    pnpDefaultName: 'プレイヤー{n}',
+    startGame: 'ゲーム開始',
+    pnpTurnTitle: '{name}さんの番です',
+    pnpTurnWarning: '他の人は画面を見ないでください',
+    pnpReady: '準備OK',
+    pnpInputDone: '入力完了',
+    pnpPassDevice: '次のプレイヤーへ渡してください',
+    pnpNextPlayer: '次のプレイヤー',
+    pnpAllDone: '全員の入力が完了しました',
+    pnpReveal: '結果を公開',
+    pnpPlayersReady: '全 {n}人 入力済み',
+    ruleDuplicate: '同値無効',
+    ruleExact: 'ピタリ賞',
+    ruleZero100: '0→100',
+    eventRule3: '⚡ ルール「0→100」が発動！ 0を選んだプレイヤーがいたため、100を選んだプレイヤーが勝者に。',
+    eventExact: '🎯 ピタリ賞！ 目標値に完全一致。敗者は -2ポイント。',
+    eventDuplicate: '⚠ 同値無効: {names} が同じ数字を選択。',
+    eventElim: '💀 {name} が脱落しました。',
+    eventNewRule1: '📢 新ルール追加:「同値無効」— 同じ数字を選ぶと無効＋減点',
+    eventNewRule2: '📢 新ルール追加:「ピタリ賞」— 正解ぴったりで敗者 -2',
+    eventNewRule3: '📢 新ルール追加:「0→100」— 0が出たら100が勝者',
+    pnpWinnerAnnounce: '🏆 {name} の優勝！',
+    pnpHistoryWinner: '優勝: {name}',
+    you: 'あなた',
+    eliminated: '脱落',
+    strategyLabel: '戦略'
+  },
+  en: {
+    title: 'Tenbin',
+    subtitle: 'King of Diamonds',
+    quote: '"Pick the number closest to\nthe average of all picks × 0.8."',
+    modeAI: 'vs AI',
+    modeAIDesc: 'Battle AI characters',
+    modePnP: 'Pass & Play',
+    modePnPDesc: 'One device, everyone plays',
+    modeOnline: 'Online',
+    modeOnlineDesc: 'Coming Soon',
+    modeHistory: 'Records',
+    modeHistoryDesc: 'View past results',
+    rulesLabel: 'Rules',
+    rulesHTML: '<h4>Basic Rules</h4><ul><li>Each player picks an integer from 0 to 100</li><li>Average of all picks × 0.8 = target value</li><li>Closest to target wins</li><li>Losers get <strong>-1 point</strong></li><li><strong>-10 points</strong> = eliminated</li><li>Last one standing wins</li></ul><h4>Special Rules (activated as players are eliminated)</h4><ul><li>🔴 After 1st elimination: "Duplicate Ban" — same number = invalid + penalty</li><li>🟡 After 2nd elimination: "Exact Bonus" — exact match means losers get -2</li><li>🟣 After 3rd elimination: "0→100" — if someone picks 0, whoever picked 100 wins</li></ul>',
+    playerCount: 'Players',
+    aiCountVal: '{n} players (You + {m} AI)',
+    pnpCountVal: '{n} players',
+    next: 'Next',
+    back: '← Back',
+    charSelectTitle: 'Select AI Characters',
+    allRandom: 'All Random',
+    charGridLabel: 'Tap to select / Long press for details',
+    startBattle: 'Start Battle',
+    slotEmpty: 'Empty',
+    slotRandom: 'Random',
+    difficulty: 'Difficulty',
+    close: 'Close',
+    round: 'Round {n}',
+    roundResult: 'Round {n} Result',
+    remaining: '{n} remaining',
+    confirm: 'Confirm',
+    targetLabel: 'Target',
+    targetCalc: 'Avg {avg} × 0.8',
+    distLabel: 'Diff {d}',
+    nextRound: 'Next Round',
+    gameEnd: 'Game Over',
+    victory: '👑 Victory',
+    yourWin: 'You win!',
+    gameOverTitle: 'GAME OVER',
+    youEliminated: 'You were eliminated',
+    pnpGameOver: 'Game Over',
+    winnerIs: 'Winner: {name}',
+    totalRounds: '{n} rounds total',
+    backToTitle: 'Back to Title',
+    historyTitle: 'Records',
+    tabAI: 'vs AI',
+    tabPnP: 'Pass & Play',
+    totalGames: 'Games',
+    totalWins: 'Wins',
+    winRate: 'Win Rate',
+    avgRank: 'Avg Rank',
+    noData: 'No records yet',
+    clearHistory: 'Clear Records',
+    clearConfirm: 'Reset all records?',
+    pnpSetupTitle: 'Player Setup',
+    pnpNamePlaceholder: 'Enter name',
+    pnpDefaultName: 'Player {n}',
+    startGame: 'Start Game',
+    pnpTurnTitle: "{name}'s turn",
+    pnpTurnWarning: 'Others, please look away!',
+    pnpReady: 'Ready',
+    pnpInputDone: 'Input Done',
+    pnpPassDevice: 'Pass the device to the next player',
+    pnpNextPlayer: 'Next Player',
+    pnpAllDone: 'All players have entered their picks',
+    pnpReveal: 'Reveal Results',
+    pnpPlayersReady: 'All {n} players ready',
+    ruleDuplicate: 'Duplicate Ban',
+    ruleExact: 'Exact Bonus',
+    ruleZero100: '0→100',
+    eventRule3: '⚡ "0→100" activated! Someone picked 0, so whoever picked 100 wins.',
+    eventExact: '🎯 Exact Bonus! Perfect match with target. Losers get -2 points.',
+    eventDuplicate: '⚠ Duplicate Ban: {names} picked the same number.',
+    eventElim: '💀 {name} has been eliminated.',
+    eventNewRule1: '📢 New rule: "Duplicate Ban" — same number = invalid + penalty',
+    eventNewRule2: '📢 New rule: "Exact Bonus" — exact match means losers get -2',
+    eventNewRule3: '📢 New rule: "0→100" — if 0 is picked, 100 wins',
+    pnpWinnerAnnounce: '🏆 {name} wins!',
+    pnpHistoryWinner: 'Winner: {name}',
+    you: 'You',
+    eliminated: 'OUT',
+    strategyLabel: 'Strategy'
+  }
+};
+
+let currentLang = localStorage.getItem('tenbin-lang') ||
+  (navigator.language && navigator.language.startsWith('en') ? 'en' : 'ja');
+
+function t(key, params) {
+  let str = LANG[currentLang][key] || LANG['ja'][key] || key;
+  if (params) {
+    Object.keys(params).forEach(k => {
+      str = str.replaceAll('{' + k + '}', params[k]);
+    });
+  }
+  return str;
+}
+
+function applyI18n() {
+  document.documentElement.lang = currentLang === 'en' ? 'en' : 'ja';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  $('lang-label').textContent = currentLang === 'ja' ? 'JP' : 'EN';
+  $('rules-content').innerHTML = t('rulesHTML');
+  // Update dynamic counts if visible
+  updateAiCountLabel();
+  updatePnpCountLabel();
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'ja' ? 'en' : 'ja';
+  localStorage.setItem('tenbin-lang', currentLang);
+  applyI18n();
+}
+
+// === CHARACTERS ===
+const CHARACTERS = [
+  {
+    id: 'randomizer',
+    icon: '🎲',
+    name: { ja: 'ランダマー', en: 'Randomizer' },
+    stars: 1,
+    color: '#888888',
+    catchphrase: { ja: '気まぐれ', en: 'Chaotic' },
+    description: {
+      ja: '0〜100の整数をランダムに選ぶ。予測不能だが、平均からかけ離れた数字を出すことが多いため勝率は低い。',
+      en: 'Picks a random integer from 0-100. Unpredictable but often far from the target, resulting in low win rates.'
+    },
+    choose: function() { return Math.floor(Math.random() * 101); }
+  },
+  {
+    id: 'textbook',
+    icon: '📖',
+    name: { ja: '教科書くん', en: 'Textbook' },
+    stars: 2,
+    color: '#3b82f6',
+    catchphrase: { ja: '理論通り', en: 'By the book' },
+    description: {
+      ja: 'Level-1思考。全員がランダム（平均50）と仮定し、50×0.8=40を常に選ぶ教科書通りの戦略。',
+      en: 'Level-1 thinking. Assumes everyone picks randomly (avg 50), always picks 50×0.8=40. Textbook strategy.'
+    },
+    choose: function() { return 40; }
+  },
+  {
+    id: 'equilibrist',
+    icon: '⚖️',
+    name: { ja: '均衡主義者', en: 'Equilibrist' },
+    stars: 3,
+    color: '#10b981',
+    catchphrase: { ja: '深読み派', en: 'Deep thinker' },
+    description: {
+      ja: 'Level-2思考。Level-1の平均40×0.8=32を常に選ぶ。一段深い推論の使い手。',
+      en: 'Level-2 thinking. Assumes Level-1 avg of 40, picks 40×0.8=32. One level deeper.'
+    },
+    choose: function() { return 32; }
+  },
+  {
+    id: 'oracle',
+    icon: '🔮',
+    name: { ja: '読み師', en: 'The Oracle' },
+    stars: 4,
+    color: '#a855f7',
+    catchphrase: { ja: '三手先を読む', en: 'Three moves ahead' },
+    description: {
+      ja: 'Level-3思考。32×0.8≈26を常に選ぶ。トーナメントでは勝率60.7%を記録した最強クラスの戦略。',
+      en: 'Level-3 thinking. Always picks 32×0.8≈26. Recorded 60.7% win rate in tournaments — deceptively powerful.'
+    },
+    choose: function() { return 26; }
+  },
+  {
+    id: 'adapter',
+    icon: '🔄',
+    name: { ja: '適応者', en: 'Adapter' },
+    stars: 4,
+    color: '#eab308',
+    catchphrase: { ja: '流れを読む', en: 'Flow reader' },
+    description: {
+      ja: '過去のラウンドの目標値を分析し、直近の目標値の移動平均×0.8を出す。ゲームの流れに適応する動的戦略。',
+      en: 'Analyzes past rounds, picks moving average of recent targets × 0.8. Dynamic strategy adapting to the flow.'
+    },
+    choose: function(hist) {
+      if (!hist || hist.length === 0) return 32;
+      const recent = hist.slice(-3).map(r => r.target);
+      const avg = recent.reduce((a, b) => a + b, 0) / recent.length;
+      return Math.round(avg * 0.8);
+    }
+  },
+  {
+    id: 'bomber',
+    icon: '💣',
+    name: { ja: '爆弾魔', en: 'Bomber' },
+    stars: 3,
+    color: '#ef4444',
+    catchphrase: { ja: '卓袱台返し', en: 'Table flipper' },
+    description: {
+      ja: '通常はLevel-2の32を出すが、20%の確率で60〜90の「爆弾」を投下。目標値を大きく引き上げて混乱させる。',
+      en: 'Usually picks 32 (Level-2), but 20% of the time throws a "bomb" (60-90), pulling the target way up.'
+    },
+    choose: function() {
+      if (Math.random() < 0.2) return Math.floor(Math.random() * 31) + 60;
+      return 32;
+    }
+  },
+  {
+    id: 'humanoid',
+    icon: '🧠',
+    name: { ja: '人間もどき', en: 'Humanoid' },
+    stars: 3,
+    color: '#f97316',
+    catchphrase: { ja: '感覚派', en: 'Gut feeling' },
+    description: {
+      ja: '平均27、標準偏差15の正規分布から数字を選ぶ。人間の実験データに基づく、最も人間に近い挙動のAI。',
+      en: 'Picks from a normal distribution (mean 27, std 15). Based on real experimental data — the most human-like AI.'
+    },
+    choose: function() {
+      const u1 = Math.random(), u2 = Math.random();
+      const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+      return Math.round(Math.max(0, Math.min(100, 27 + z * 15)));
+    }
+  }
+];
+
+function getChar(id) { return CHARACTERS.find(c => c.id === id); }
+function charName(c) { return c.name[currentLang] || c.name.ja; }
+function charCatch(c) { return c.catchphrase[currentLang] || c.catchphrase.ja; }
+function charDesc(c) { return c.description[currentLang] || c.description.ja; }
+function starsStr(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); }
+
+// === GAME STATE ===
+const COLORS = ['#f5c518', '#e94560', '#0ea5e9', '#10b981', '#a855f7'];
 const STORAGE_KEY = 'tenbin-history';
+const PNP_STORAGE_KEY = 'tenbin-pnp-history';
 
-// ===== State =====
 let game = null;
+let gameMode = null; // 'ai' or 'pnp'
+let charSlots = []; // character ids for AI slots
+let activeSlot = 0;
+let pnpState = null;
 
-// ===== Helpers =====
-function $(id){ return document.getElementById(id) }
-function clamp(v,lo,hi){ return Math.max(lo,Math.min(hi,v)) }
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+// === HELPERS ===
+function $(id) { return document.getElementById(id); }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
 }
 
-// ===== AI =====
-function aiChoice(type){
-  switch(type){
-    case 'random': return Math.floor(Math.random()*101);
-    case 'level1': return 40;
-    case 'level2': return 32;
-    default: return Math.floor(Math.random()*101);
-  }
-}
-function aiLabel(type){
-  switch(type){
-    case 'random': return 'ランダム';
-    case 'level1': return 'Lv.1';
-    case 'level2': return 'Lv.2';
-    default: return '';
-  }
+// === AI CHARACTER CHOICE ===
+function charChoice(charId, roundHistory) {
+  const c = getChar(charId);
+  if (!c) return Math.floor(Math.random() * 101);
+  return clamp(c.choose(roundHistory), 0, 100);
 }
 
-// ===== Game Init =====
-function startGame(){
-  const count = parseInt($('player-count').value);
+// === GAME LOGIC ===
+function getActiveRules() {
+  const r = [];
+  if (game.eliminatedCount >= 1) r.push(1);
+  if (game.eliminatedCount >= 2) r.push(2);
+  if (game.eliminatedCount >= 3) r.push(3);
+  return r;
+}
+
+function processRound(choices) {
+  const players = game.players;
+  const aliveIdx = players.map((_, i) => i).filter(i => players[i].alive);
+  const vals = aliveIdx.map(i => choices[i]);
+  const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+  const target = avg * 0.8;
+  const rules = getActiveRules();
+  let winners = [];
+  let invalidPs = [];
+  let rule3Triggered = false;
+  let exactMatch = false;
+
+  // Rule 3 check
+  if (rules.includes(3)) {
+    const has0 = aliveIdx.some(i => choices[i] === 0);
+    const pickers100 = aliveIdx.filter(i => choices[i] === 100);
+    if (has0 && pickers100.length > 0) {
+      winners = pickers100;
+      rule3Triggered = true;
+    }
+  }
+
+  if (!rule3Triggered) {
+    // Rule 1: duplicates invalid
+    if (rules.includes(1)) {
+      const cnt = {};
+      aliveIdx.forEach(i => { const c = choices[i]; cnt[c] = (cnt[c] || 0) + 1; });
+      invalidPs = aliveIdx.filter(i => cnt[choices[i]] > 1);
+    }
+    const validIdx = aliveIdx.filter(i => !invalidPs.includes(i));
+    if (validIdx.length > 0) {
+      let minD = Infinity;
+      validIdx.forEach(i => {
+        const d = Math.abs(choices[i] - target);
+        if (d < minD) minD = d;
+      });
+      winners = validIdx.filter(i => Math.abs(choices[i] - target) - minD < 0.0001);
+      if (rules.includes(2)) {
+        exactMatch = winners.some(i => Math.abs(choices[i] - target) < 0.005);
+      }
+    }
+  }
+
+  // Scoring
+  const basePenalty = exactMatch ? -2 : -1;
+  const ptChanges = {};
+  aliveIdx.forEach(i => {
+    ptChanges[i] = winners.includes(i) ? 0 : basePenalty;
+  });
+  aliveIdx.forEach(i => { players[i].points += ptChanges[i]; });
+
+  // Eliminations
+  const newElim = [];
+  aliveIdx.forEach(i => {
+    if (players[i].points <= -10 && players[i].alive) {
+      players[i].alive = false;
+      game.eliminationOrder.push(i);
+      game.eliminatedCount++;
+      newElim.push(i);
+    }
+  });
+
+  const aliveCount = players.filter(p => p.alive).length;
+  let isOver = aliveCount <= 1;
+  if (gameMode === 'ai' && !players[0].alive) isOver = true;
+  if (isOver) game.gameOver = true;
+
+  const newRules = getActiveRules().filter(r => !rules.includes(r));
+  const result = {
+    round: game.round, choices, avg, target, winners, invalidPs,
+    ptChanges, exactMatch, rule3Triggered,
+    activeRules: rules, newElim, newRules, isOver
+  };
+  game.roundHistory.push(result);
+  return result;
+}
+
+function computeRanks() {
+  const ranks = {};
+  const total = game.players.length;
+  game.eliminationOrder.forEach((idx, i) => { ranks[idx] = total - i; });
+  game.players.forEach((p, i) => { if (p.alive) ranks[i] = 1; });
+  const aliveIdxs = game.players.map((_, i) => i).filter(i => game.players[i].alive);
+  if (aliveIdxs.length > 1) {
+    aliveIdxs.sort((a, b) => game.players[b].points - game.players[a].points);
+    aliveIdxs.forEach((idx, i) => { ranks[idx] = i + 1; });
+  }
+  return ranks;
+}
+
+// === MODE: vs AI ===
+function updateAiCountLabel() {
+  const el = $('ai-player-count');
+  if (!el) return;
+  const v = parseInt(el.value);
+  $('ai-player-count-val').textContent = t('aiCountVal', { n: v, m: v - 1 });
+}
+
+function initCharSelect() {
+  const count = parseInt($('ai-player-count').value);
+  const aiCount = count - 1;
+  charSlots = new Array(aiCount).fill(null);
+  activeSlot = 0;
+  renderSlots();
+  renderCharGrid();
+  $('btn-start-battle').disabled = true;
+  showScreen('screen-char-select');
+}
+
+function renderSlots() {
+  const html = charSlots.map((cid, i) => {
+    const c = cid ? getChar(cid) : null;
+    const isActive = i === activeSlot;
+    if (c) {
+      return `<div class="slot-card${isActive ? ' active-slot' : ''}" data-slot="${i}" style="--char-color:${c.color}">
+        <span class="slot-icon">${c.icon}</span>
+        <div class="slot-info">
+          <div class="slot-name" style="color:${c.color}">AI ${i + 1}: ${charName(c)}</div>
+          <div class="slot-catch">${charCatch(c)}</div>
+        </div>
+        <button class="slot-btn" data-slot-random="${i}">${t('slotRandom')}</button>
+      </div>`;
+    } else {
+      return `<div class="slot-card${isActive ? ' active-slot' : ''}" data-slot="${i}">
+        <span class="slot-icon" style="opacity:.3">?</span>
+        <div class="slot-info">
+          <div class="slot-empty">AI ${i + 1}: ${t('slotEmpty')}</div>
+        </div>
+        <button class="slot-btn" data-slot-random="${i}">${t('slotRandom')}</button>
+      </div>`;
+    }
+  }).join('');
+  $('slot-list').innerHTML = html;
+
+  // Slot click → activate
+  $('slot-list').querySelectorAll('.slot-card').forEach(el => {
+    el.addEventListener('click', function(e) {
+      if (e.target.classList.contains('slot-btn')) return;
+      activeSlot = parseInt(this.dataset.slot);
+      renderSlots();
+    });
+  });
+
+  // Slot random buttons
+  $('slot-list').querySelectorAll('[data-slot-random]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const idx = parseInt(this.dataset.slotRandom);
+      animateSlotRandom(idx);
+    });
+  });
+
+  updateStartButton();
+}
+
+function renderCharGrid() {
+  const html = CHARACTERS.map(c => {
+    return `<div class="char-card" data-char="${c.id}" style="--char-color:${c.color}">
+      <span class="char-card-info" data-char-info="${c.id}">i</span>
+      <span class="char-card-icon">${c.icon}</span>
+      <span class="char-card-name">${charName(c)}</span>
+      <span class="char-card-stars">${starsStr(c.stars)}</span>
+      <span class="char-card-catch">${charCatch(c)}</span>
+    </div>`;
+  }).join('');
+  $('char-grid').innerHTML = html;
+
+  // Tap / long-press handling
+  $('char-grid').querySelectorAll('.char-card').forEach(el => {
+    let pressTimer = null;
+    let isLong = false;
+
+    el.addEventListener('pointerdown', function(e) {
+      if (e.target.classList.contains('char-card-info')) return;
+      isLong = false;
+      pressTimer = setTimeout(() => {
+        isLong = true;
+        showCharDetail(this.dataset.char);
+        if (navigator.vibrate) navigator.vibrate(30);
+      }, 500);
+    });
+
+    el.addEventListener('pointerup', function(e) {
+      clearTimeout(pressTimer);
+      if (e.target.classList.contains('char-card-info')) return;
+      if (!isLong) {
+        selectCharForSlot(this.dataset.char);
+      }
+    });
+
+    el.addEventListener('pointerleave', function() {
+      clearTimeout(pressTimer);
+    });
+  });
+
+  // Info buttons
+  $('char-grid').querySelectorAll('[data-char-info]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      showCharDetail(this.dataset.charInfo);
+    });
+  });
+}
+
+function selectCharForSlot(charId) {
+  charSlots[activeSlot] = charId;
+  // Auto-advance to next empty slot
+  const nextEmpty = charSlots.findIndex((s, i) => i > activeSlot && s === null);
+  if (nextEmpty !== -1) {
+    activeSlot = nextEmpty;
+  } else {
+    const firstEmpty = charSlots.findIndex(s => s === null);
+    if (firstEmpty !== -1) activeSlot = firstEmpty;
+  }
+  renderSlots();
+}
+
+function animateSlotRandom(slotIdx) {
+  let count = 0;
+  const interval = setInterval(() => {
+    const rnd = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+    charSlots[slotIdx] = rnd.id;
+    renderSlots();
+    count++;
+    if (count >= 10) {
+      clearInterval(interval);
+      const final = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+      charSlots[slotIdx] = final.id;
+      renderSlots();
+    }
+  }, 50);
+}
+
+function allSlotsRandom() {
+  let count = 0;
+  const interval = setInterval(() => {
+    charSlots.forEach((_, i) => {
+      charSlots[i] = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)].id;
+    });
+    renderSlots();
+    count++;
+    if (count >= 10) {
+      clearInterval(interval);
+      charSlots.forEach((_, i) => {
+        charSlots[i] = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)].id;
+      });
+      renderSlots();
+    }
+  }, 50);
+}
+
+function updateStartButton() {
+  $('btn-start-battle').disabled = charSlots.some(s => s === null);
+}
+
+function showCharDetail(charId) {
+  const c = getChar(charId);
+  if (!c) return;
+  $('modal-char-icon').textContent = c.icon;
+  $('modal-char-name').textContent = charName(c);
+  $('modal-char-catch').textContent = charCatch(c);
+  $('modal-char-stars').textContent = t('difficulty') + ': ' + starsStr(c.stars);
+  $('modal-char-desc').textContent = charDesc(c);
+  $('modal-char').style.display = 'flex';
+}
+
+function startAIGame() {
+  const count = parseInt($('ai-player-count').value);
+  gameMode = 'ai';
   game = {
     players: [],
     round: 1,
@@ -409,408 +1260,549 @@ function startGame(){
     roundHistory: [],
     gameOver: false
   };
-  // Human
-  game.players.push({name:'あなた',points:0,alive:true,isHuman:true,color:COLORS[0],aiType:null});
-  // AIs
-  for(let i=1;i<count;i++){
-    const t = AI_TYPES[Math.floor(Math.random()*AI_TYPES.length)];
-    game.players.push({name:'AI '+i,points:0,alive:true,isHuman:false,color:COLORS[i],aiType:t});
-  }
-  $('choice-slider').value = 50;
-  $('choice-input').value = 50;
+  // Human player
+  game.players.push({
+    name: t('you'), points: 0, alive: true,
+    isHuman: true, color: COLORS[0], charId: null
+  });
+  // AI players
+  charSlots.forEach((cid, i) => {
+    const c = getChar(cid);
+    game.players.push({
+      name: charName(c), points: 0, alive: true,
+      isHuman: false, color: c.color, charId: cid,
+      icon: c.icon
+    });
+  });
+  syncChoice(50, 'choice');
   showScreen('screen-game');
   renderGame();
 }
 
-// ===== Render Game Screen =====
-function renderGame(){
-  $('round-badge').textContent = 'ラウンド '+game.round;
-  const alive = game.players.filter(p=>p.alive).length;
-  $('alive-count').textContent = '残り '+alive+'人';
+function renderGame() {
+  $('round-badge').textContent = t('round', { n: game.round });
+  const alive = game.players.filter(p => p.alive).length;
+  $('alive-count').textContent = t('remaining', { n: alive });
 
-  // Active rules
   const rules = getActiveRules();
   let rh = '';
-  if(rules.includes(1)) rh+='<span class="badge badge-rule">同値無効</span>';
-  if(rules.includes(2)) rh+='<span class="badge badge-rule2">ピタリ賞</span>';
-  if(rules.includes(3)) rh+='<span class="badge badge-rule3">0→100</span>';
+  if (rules.includes(1)) rh += '<span class="badge badge-rule">' + t('ruleDuplicate') + '</span>';
+  if (rules.includes(2)) rh += '<span class="badge badge-rule2">' + t('ruleExact') + '</span>';
+  if (rules.includes(3)) rh += '<span class="badge badge-rule3">' + t('ruleZero100') + '</span>';
   $('active-rules').innerHTML = rh;
 
-  // Player list
   let ph = '';
-  game.players.forEach(p=>{
+  game.players.forEach(p => {
     const elim = !p.alive;
-    ph += '<div class="player-card'+(elim?' eliminated':'')+'">';
-    ph += '<div class="player-dot" style="background:'+p.color+'"></div>';
-    ph += '<div class="player-name">'+p.name;
-    if(!p.isHuman) ph += '<small>'+aiLabel(p.aiType)+'</small>';
+    ph += '<div class="player-card' + (elim ? ' eliminated' : '') + '">';
+    ph += '<div class="player-dot" style="background:' + p.color + '"></div>';
+    ph += '<div class="player-name">';
+    if (p.icon) ph += '<span style="margin-right:4px">' + p.icon + '</span>';
+    ph += p.name;
     ph += '</div>';
-    if(elim){
-      ph += '<span class="player-status">脱落</span>';
+    if (elim) {
+      ph += '<span class="player-status">' + t('eliminated') + '</span>';
     } else {
-      ph += '<span class="player-pts" style="color:'+(p.points<=-7?'var(--danger)':p.points<=-4?'var(--gold)':'var(--text)')+'">'+p.points+' pt</span>';
+      const ptColor = p.points <= -7 ? 'var(--danger)' : p.points <= -4 ? 'var(--gold)' : 'var(--text)';
+      ph += '<span class="player-pts" style="color:' + ptColor + '">' + p.points + ' pt</span>';
     }
     ph += '</div>';
   });
   $('player-list').innerHTML = ph;
-
-  // Enable confirm
   $('btn-confirm').disabled = false;
 }
 
-function getActiveRules(){
-  const r=[];
-  if(game.eliminatedCount>=1) r.push(1);
-  if(game.eliminatedCount>=2) r.push(2);
-  if(game.eliminatedCount>=3) r.push(3);
-  return r;
-}
-
-// ===== Process Round =====
-function processRound(humanVal){
-  const players = game.players;
-  const aliveIdx = players.map((p,i)=>i).filter(i=>players[i].alive);
+function confirmAIChoice() {
+  $('btn-confirm').disabled = true;
+  if (navigator.vibrate) navigator.vibrate(30);
+  const humanVal = getChoice('choice');
+  const aliveIdx = game.players.map((_, i) => i).filter(i => game.players[i].alive);
   const choices = {};
-
-  // Collect choices
-  aliveIdx.forEach(i=>{
-    choices[i] = players[i].isHuman ? humanVal : aiChoice(players[i].aiType);
-  });
-
-  // Calculate target
-  const vals = aliveIdx.map(i=>choices[i]);
-  const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
-  const target = avg * 0.8;
-
-  const rules = getActiveRules();
-  let winners = [];
-  let invalidPs = [];
-  let rule3Triggered = false;
-  let exactMatch = false;
-
-  // Rule 3 check
-  if(rules.includes(3)){
-    const has0 = aliveIdx.some(i=>choices[i]===0);
-    const pickers100 = aliveIdx.filter(i=>choices[i]===100);
-    if(has0 && pickers100.length>0){
-      winners = pickers100;
-      rule3Triggered = true;
-    }
-  }
-
-  if(!rule3Triggered){
-    // Rule 1: duplicates invalid
-    if(rules.includes(1)){
-      const cnt = {};
-      aliveIdx.forEach(i=>{ const c=choices[i]; cnt[c]=(cnt[c]||0)+1; });
-      invalidPs = aliveIdx.filter(i=>cnt[choices[i]]>1);
-    }
-
-    // Winner among valid
-    const validIdx = aliveIdx.filter(i=>!invalidPs.includes(i));
-    if(validIdx.length>0){
-      let minD = Infinity;
-      validIdx.forEach(i=>{
-        const d = Math.abs(choices[i]-target);
-        if(d<minD) minD = d;
-      });
-      winners = validIdx.filter(i=>Math.abs(choices[i]-target)-minD < 0.0001);
-
-      // Rule 2: exact match
-      if(rules.includes(2)){
-        exactMatch = winners.some(i=>Math.abs(choices[i]-target)<0.005);
-      }
-    }
-  }
-
-  // Scoring
-  const basePenalty = exactMatch ? -2 : -1;
-  const ptChanges = {};
-  aliveIdx.forEach(i=>{
-    if(winners.includes(i)){
-      ptChanges[i] = 0;
+  aliveIdx.forEach(i => {
+    if (game.players[i].isHuman) {
+      choices[i] = humanVal;
     } else {
-      ptChanges[i] = basePenalty;
+      choices[i] = charChoice(game.players[i].charId, game.roundHistory);
     }
   });
-
-  // Apply
-  aliveIdx.forEach(i=>{ players[i].points += ptChanges[i]; });
-
-  // Eliminations
-  const newElim = [];
-  aliveIdx.forEach(i=>{
-    if(players[i].points<=-10 && players[i].alive){
-      players[i].alive = false;
-      game.eliminationOrder.push(i);
-      game.eliminatedCount++;
-      newElim.push(i);
-    }
-  });
-
-  // Game over check
-  const aliveCount = players.filter(p=>p.alive).length;
-  const humanAlive = players[0].alive;
-  const isOver = aliveCount<=1 || !humanAlive;
-  if(isOver) game.gameOver = true;
-
-  // Determine new rules
-  const newRules = getActiveRules().filter(r=>!rules.includes(r));
-
-  const result = {
-    round: game.round,
-    choices, avg, target, winners, invalidPs,
-    ptChanges, exactMatch, rule3Triggered,
-    activeRules: rules, newElim, newRules, isOver
-  };
-  game.roundHistory.push(result);
-  return result;
+  const result = processRound(choices);
+  setTimeout(() => renderResult(result), 200);
 }
 
-// ===== Render Result =====
-function renderResult(res){
-  $('result-round-badge').textContent = 'ラウンド '+res.round+' 結果';
+// === RENDER RESULT ===
+function renderResult(res) {
+  $('result-round-badge').textContent = t('roundResult', { n: res.round });
   $('target-val').textContent = res.target.toFixed(2);
-  $('target-calc').textContent = '平均 '+res.avg.toFixed(2)+' × 0.8';
+  $('target-calc').textContent = t('targetCalc', { avg: res.avg.toFixed(2) });
 
-  // Sort alive players by distance to target
-  const aliveIdx = game.players.map((_,i)=>i).filter(i=>res.choices[i]!==undefined);
-  aliveIdx.sort((a,b)=>{
-    const wa = res.winners.includes(a)?0:1;
-    const wb = res.winners.includes(b)?0:1;
-    if(wa!==wb) return wa-wb;
-    return Math.abs(res.choices[a]-res.target)-Math.abs(res.choices[b]-res.target);
+  const aliveIdx = game.players.map((_, i) => i).filter(i => res.choices[i] !== undefined);
+  aliveIdx.sort((a, b) => {
+    const wa = res.winners.includes(a) ? 0 : 1;
+    const wb = res.winners.includes(b) ? 0 : 1;
+    if (wa !== wb) return wa - wb;
+    return Math.abs(res.choices[a] - res.target) - Math.abs(res.choices[b] - res.target);
   });
 
   let rh = '';
-  aliveIdx.forEach(i=>{
+  aliveIdx.forEach(i => {
     const p = game.players[i];
     const isW = res.winners.includes(i);
     const isInv = res.invalidPs.includes(i);
-    const dist = Math.abs(res.choices[i]-res.target);
+    const dist = Math.abs(res.choices[i] - res.target);
     const pc = res.ptChanges[i];
-    rh += '<div class="result-card'+(isW?' winner':'')+(isInv?' invalid-pick':'')+'">';
-    rh += '<span class="result-icon">'+(isW?'★':isInv?'✕':'·')+'</span>';
-    rh += '<span class="result-name" style="color:'+p.color+'">'+p.name+'</span>';
-    rh += '<span class="result-choice">'+res.choices[i]+'</span>';
-    rh += '<span class="result-dist">差 '+dist.toFixed(2)+'</span>';
-    rh += '<span class="result-pts '+(pc===0?'pts-zero':'pts-neg')+'">'+(pc>=0?'+':'')+pc+'</span>';
+    rh += '<div class="result-card' + (isW ? ' winner' : '') + (isInv ? ' invalid-pick' : '') + '">';
+    rh += '<span class="result-icon">' + (isW ? '★' : isInv ? '✕' : '·') + '</span>';
+    rh += '<span class="result-name" style="color:' + p.color + '">';
+    if (p.icon) rh += p.icon + ' ';
+    rh += p.name + '</span>';
+    rh += '<span class="result-choice">' + res.choices[i] + '</span>';
+    rh += '<span class="result-dist">' + t('distLabel', { d: dist.toFixed(2) }) + '</span>';
+    rh += '<span class="result-pts ' + (pc === 0 ? 'pts-zero' : 'pts-neg') + '">' + (pc >= 0 ? '+' : '') + pc + '</span>';
     rh += '</div>';
   });
   $('result-list').innerHTML = rh;
 
-  // Events
   let eh = '';
-  if(res.rule3Triggered){
-    eh += '<div class="event-box event-special">⚡ ルール「0→100」が発動！<br>0を選んだプレイヤーがいたため、100を選んだプレイヤーが勝者に。</div>';
+  if (res.rule3Triggered) {
+    eh += '<div class="event-box event-special">' + t('eventRule3') + '</div>';
   }
-  if(res.exactMatch){
-    eh += '<div class="event-box event-special">🎯 ピタリ賞！ 目標値に完全一致。敗者は −2ポイント。</div>';
+  if (res.exactMatch) {
+    eh += '<div class="event-box event-special">' + t('eventExact') + '</div>';
   }
-  if(res.invalidPs.length>0){
-    const names = res.invalidPs.map(i=>game.players[i].name).join('、');
-    eh += '<div class="event-box event-rule">⚠ 同値無効: '+names+' が同じ数字を選択。</div>';
+  if (res.invalidPs.length > 0) {
+    const names = res.invalidPs.map(i => game.players[i].name).join(', ');
+    eh += '<div class="event-box event-rule">' + t('eventDuplicate', { names }) + '</div>';
   }
-  if(res.newElim.length>0){
-    res.newElim.forEach(i=>{
-      eh += '<div class="event-box event-elim">💀 '+game.players[i].name+' が脱落しました。</div>';
+  if (res.newElim.length > 0) {
+    res.newElim.forEach(i => {
+      eh += '<div class="event-box event-elim">' + t('eventElim', { name: game.players[i].name }) + '</div>';
     });
   }
-  if(res.newRules.length>0){
-    res.newRules.forEach(r=>{
-      const labels = {1:'「同値無効」— 同じ数字を選ぶと無効＋減点',2:'「ピタリ賞」— 正解ぴったりで敗者 −2',3:'「0→100」— 0が出たら100が勝者'};
-      eh += '<div class="event-box event-rule">📢 新ルール追加: '+labels[r]+'</div>';
+  if (res.newRules.length > 0) {
+    res.newRules.forEach(r => {
+      eh += '<div class="event-box event-rule">' + t('eventNewRule' + r) + '</div>';
     });
   }
   $('result-events').innerHTML = eh;
 
-  // Button
-  if(res.isOver){
-    $('btn-next').textContent = 'ゲーム終了';
-  } else {
-    $('btn-next').textContent = '次のラウンド';
-  }
+  $('btn-next').textContent = res.isOver ? t('gameEnd') : t('nextRound');
   showScreen('screen-result');
 }
 
-// ===== Render Game Over =====
-function renderGameOver(){
+// === RENDER GAMEOVER ===
+function renderGameOver() {
   const p = game.players;
-  const humanAlive = p[0].alive;
-  const winner = p.find(pl=>pl.alive);
+  const rankings = computeRanks();
 
   let bh = '';
-  if(humanAlive){
-    bh = '<h2 style="color:var(--gold);animation:pulse 1.5s infinite">👑 優勝</h2>';
-    bh += '<div class="result-label" style="color:var(--gold)">あなたの勝利！</div>';
+  if (gameMode === 'ai') {
+    const humanAlive = p[0].alive;
+    if (humanAlive && rankings[0] === 1) {
+      bh = '<h2 style="color:var(--gold);animation:pulse 1.5s infinite">' + t('victory') + '</h2>';
+      bh += '<div class="result-label" style="color:var(--gold)">' + t('yourWin') + '</div>';
+    } else {
+      bh = '<h2 style="color:var(--accent)">' + t('gameOverTitle') + '</h2>';
+      bh += '<div class="result-label" style="color:var(--text-muted)">' + t('youEliminated') + '</div>';
+      const winner = p.find(pl => pl.alive);
+      if (winner) bh += '<div style="margin-top:8px;font-size:.85rem;color:var(--text-dim)">' + t('winnerIs', { name: winner.name }) + '</div>';
+    }
   } else {
-    bh = '<h2 style="color:var(--accent)">GAME OVER</h2>';
-    bh += '<div class="result-label" style="color:var(--text-muted)">あなたは脱落しました</div>';
-    if(winner) bh += '<div style="margin-top:8px;font-size:.85rem;color:var(--text-dim)">勝者: '+winner.name+'</div>';
+    // PnP
+    const winner = p.find(pl => pl.alive);
+    if (winner) {
+      bh = '<h2 style="color:var(--gold);animation:pulse 1.5s infinite">' + t('pnpWinnerAnnounce', { name: winner.name }) + '</h2>';
+    } else {
+      bh = '<h2 style="color:var(--accent)">' + t('pnpGameOver') + '</h2>';
+    }
   }
   $('gameover-banner').innerHTML = bh;
 
-  // Rankings
-  const rankings = computeRanks();
-  const sorted = Object.keys(rankings).map(Number).sort((a,b)=>rankings[a]-rankings[b]);
-
+  const sorted = Object.keys(rankings).map(Number).sort((a, b) => rankings[a] - rankings[b]);
   let sh = '';
-  sorted.forEach(i=>{
+  sorted.forEach(i => {
     const rank = rankings[i];
     const pl = p[i];
     sh += '<div class="standing-card">';
-    sh += '<span class="standing-rank'+(rank===1?' rank1':'')+'">'+rank+'</span>';
-    sh += '<span class="standing-name" style="color:'+pl.color+'">'+pl.name+'</span>';
-    sh += '<span class="standing-pts">'+pl.points+' pt</span>';
+    sh += '<span class="standing-rank' + (rank === 1 ? ' rank1' : '') + '">' + rank + '</span>';
+    sh += '<span class="standing-name" style="color:' + pl.color + '">';
+    if (pl.icon) sh += pl.icon + ' ';
+    sh += pl.name + '</span>';
+    sh += '<span class="standing-pts">' + pl.points + ' pt</span>';
     sh += '</div>';
   });
   $('standing-list').innerHTML = sh;
-
-  $('gameover-stats').textContent = '全 '+game.round+' ラウンド';
+  $('gameover-stats').textContent = t('totalRounds', { n: game.round });
 
   // Save history
-  saveHistory(rankings);
+  if (gameMode === 'ai') {
+    saveAIHistory(rankings);
+  } else {
+    savePnPHistory(rankings);
+  }
 
   showScreen('screen-gameover');
 }
 
-function computeRanks(){
-  const ranks = {};
-  const total = game.players.length;
-  game.eliminationOrder.forEach((idx,i)=>{
-    ranks[idx] = total - i;
-  });
-  game.players.forEach((p,i)=>{
-    if(p.alive) ranks[i] = 1;
-  });
-  // If multiple alive (game ended early), rank by points
-  const aliveIdxs = game.players.map((_,i)=>i).filter(i=>game.players[i].alive);
-  if(aliveIdxs.length > 1){
-    aliveIdxs.sort((a,b)=>game.players[b].points - game.players[a].points);
-    aliveIdxs.forEach((idx,i)=>{ ranks[idx] = i+1; });
-  }
-  return ranks;
+// === MODE: PASS AND PLAY ===
+function updatePnpCountLabel() {
+  const el = $('pnp-player-count');
+  if (!el) return;
+  $('pnp-player-count-val').textContent = t('pnpCountVal', { n: el.value });
 }
 
-// ===== History =====
-function saveHistory(ranks){
-  const hist = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+function renderPnpNames() {
+  const count = parseInt($('pnp-player-count').value);
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `<div class="pnp-name-row">
+      <div class="pnp-name-dot" style="background:${COLORS[i]}"></div>
+      <span class="pnp-name-label">${i + 1}.</span>
+      <input type="text" class="name-input" id="pnp-name-${i}"
+        placeholder="${t('pnpNamePlaceholder')}"
+        value="${t('pnpDefaultName', { n: i + 1 })}">
+    </div>`;
+  }
+  $('pnp-name-list').innerHTML = html;
+}
+
+function startPnPGame() {
+  const count = parseInt($('pnp-player-count').value);
+  gameMode = 'pnp';
+  game = {
+    players: [],
+    round: 1,
+    eliminatedCount: 0,
+    eliminationOrder: [],
+    roundHistory: [],
+    gameOver: false
+  };
+  for (let i = 0; i < count; i++) {
+    const nameInput = $('pnp-name-' + i);
+    const name = (nameInput && nameInput.value.trim()) || t('pnpDefaultName', { n: i + 1 });
+    game.players.push({
+      name, points: 0, alive: true, isHuman: true,
+      color: COLORS[i], charId: null
+    });
+  }
+  pnpState = { currentPlayerIndex: 0, choices: {}, phase: 'privacy' };
+  startPnPTurn();
+}
+
+function getAlivePnPPlayers() {
+  return game.players.map((_, i) => i).filter(i => game.players[i].alive);
+}
+
+function startPnPTurn() {
+  const alivePlayers = getAlivePnPPlayers();
+  pnpState.currentPlayerIndex = 0;
+  pnpState.choices = {};
+  pnpState.phase = 'privacy';
+  showPnPPrivacy();
+}
+
+function showPnPPrivacy() {
+  const alivePlayers = getAlivePnPPlayers();
+  if (pnpState.currentPlayerIndex >= alivePlayers.length) {
+    // All done, show reveal
+    showPnPReveal();
+    return;
+  }
+  const pIdx = alivePlayers[pnpState.currentPlayerIndex];
+  const p = game.players[pIdx];
+  $('pnp-turn-icon').textContent = '🔒';
+  $('pnp-turn-name').textContent = t('pnpTurnTitle', { name: p.name });
+  $('pnp-turn-name').style.color = p.color;
+  $('pnp-phase-privacy').style.display = 'flex';
+  $('pnp-phase-input').style.display = 'none';
+  $('pnp-phase-done').style.display = 'none';
+  showScreen('screen-pnp-turn');
+}
+
+function showPnPInput() {
+  const alivePlayers = getAlivePnPPlayers();
+  const pIdx = alivePlayers[pnpState.currentPlayerIndex];
+  const p = game.players[pIdx];
+
+  $('pnp-round-badge').textContent = t('round', { n: game.round });
+  const alive = game.players.filter(pl => pl.alive).length;
+  $('pnp-alive-count').textContent = t('remaining', { n: alive });
+  $('pnp-input-name').textContent = p.name;
+  $('pnp-input-name').style.color = p.color;
+
+  // Active rules
+  const rules = getActiveRules();
+  let rh = '';
+  if (rules.includes(1)) rh += '<span class="badge badge-rule">' + t('ruleDuplicate') + '</span>';
+  if (rules.includes(2)) rh += '<span class="badge badge-rule2">' + t('ruleExact') + '</span>';
+  if (rules.includes(3)) rh += '<span class="badge badge-rule3">' + t('ruleZero100') + '</span>';
+  $('pnp-active-rules').innerHTML = rh;
+
+  syncChoice(50, 'pnp-choice');
+  $('pnp-phase-privacy').style.display = 'none';
+  $('pnp-phase-input').style.display = 'block';
+  $('pnp-phase-done').style.display = 'none';
+  $('btn-pnp-confirm').disabled = false;
+}
+
+function confirmPnPChoice() {
+  $('btn-pnp-confirm').disabled = true;
+  if (navigator.vibrate) navigator.vibrate(30);
+  const val = getChoice('pnp-choice');
+  const alivePlayers = getAlivePnPPlayers();
+  const pIdx = alivePlayers[pnpState.currentPlayerIndex];
+  pnpState.choices[pIdx] = val;
+
+  $('pnp-phase-privacy').style.display = 'none';
+  $('pnp-phase-input').style.display = 'none';
+  $('pnp-phase-done').style.display = 'flex';
+}
+
+function nextPnPPlayer() {
+  pnpState.currentPlayerIndex++;
+  const alivePlayers = getAlivePnPPlayers();
+  if (pnpState.currentPlayerIndex >= alivePlayers.length) {
+    showPnPReveal();
+  } else {
+    showPnPPrivacy();
+  }
+}
+
+function showPnPReveal() {
+  const alive = game.players.filter(p => p.alive).length;
+  $('pnp-reveal-players').textContent = t('pnpPlayersReady', { n: alive });
+  showScreen('screen-pnp-reveal');
+}
+
+function revealPnPResults() {
+  const result = processRound(pnpState.choices);
+  renderResult(result);
+}
+
+// === HISTORY ===
+function saveAIHistory(ranks) {
+  const hist = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
   hist.push({
     date: new Date().toISOString(),
     playerCount: game.players.length,
     rounds: game.round,
     rank: ranks[0],
-    won: game.players[0].alive
+    won: ranks[0] === 1,
+    mode: 'ai'
   });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(hist));
 }
 
-function renderHistory(){
-  const hist = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+function savePnPHistory(ranks) {
+  const hist = JSON.parse(localStorage.getItem(PNP_STORAGE_KEY) || '[]');
+  const winner = game.players.find(p => p.alive);
+  hist.push({
+    date: new Date().toISOString(),
+    playerCount: game.players.length,
+    rounds: game.round,
+    winner: winner ? winner.name : '-',
+    players: game.players.map(p => p.name)
+  });
+  localStorage.setItem(PNP_STORAGE_KEY, JSON.stringify(hist));
+}
+
+let historyTab = 'ai';
+
+function renderHistory() {
+  renderAIHistory();
+  renderPnPHistory();
+  updateHistoryTabs();
+}
+
+function updateHistoryTabs() {
+  $('tab-ai').classList.toggle('active', historyTab === 'ai');
+  $('tab-pnp').classList.toggle('active', historyTab === 'pnp');
+  $('history-ai-content').style.display = historyTab === 'ai' ? '' : 'none';
+  $('history-pnp-content').style.display = historyTab === 'pnp' ? '' : 'none';
+}
+
+function renderAIHistory() {
+  const hist = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
   const total = hist.length;
-  const wins = hist.filter(g=>g.won).length;
-  const winRate = total>0?Math.round(wins/total*100):0;
-  const avgRank = total>0?(hist.reduce((s,g)=>s+g.rank,0)/total).toFixed(1):'-';
+  const wins = hist.filter(g => g.won).length;
+  const winRate = total > 0 ? Math.round(wins / total * 100) : 0;
+  const avgRank = total > 0 ? (hist.reduce((s, g) => s + g.rank, 0) / total).toFixed(1) : '-';
 
   $('stats-grid').innerHTML = `
-    <div class="stat-card"><div class="stat-val">${total}</div><div class="stat-label">対戦数</div></div>
-    <div class="stat-card"><div class="stat-val gold">${wins}</div><div class="stat-label">勝利数</div></div>
-    <div class="stat-card"><div class="stat-val">${winRate}%</div><div class="stat-label">勝率</div></div>
-    <div class="stat-card"><div class="stat-val">${avgRank}</div><div class="stat-label">平均順位</div></div>
+    <div class="stat-card"><div class="stat-val">${total}</div><div class="stat-label">${t('totalGames')}</div></div>
+    <div class="stat-card"><div class="stat-val gold">${wins}</div><div class="stat-label">${t('totalWins')}</div></div>
+    <div class="stat-card"><div class="stat-val">${winRate}%</div><div class="stat-label">${t('winRate')}</div></div>
+    <div class="stat-card"><div class="stat-val">${avgRank}</div><div class="stat-label">${t('avgRank')}</div></div>
   `;
 
-  if(total===0){
-    $('history-list').innerHTML = '<div class="no-data">まだ対戦記録がありません</div>';
+  if (total === 0) {
+    $('history-list').innerHTML = '<div class="no-data">' + t('noData') + '</div>';
     return;
   }
 
   let lh = '';
-  [...hist].reverse().forEach(g=>{
+  [...hist].reverse().forEach(g => {
     const d = new Date(g.date);
-    const ds = (d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
+    const ds = (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
     lh += '<div class="history-item">';
-    lh += '<span class="history-date">'+ds+'</span>';
-    lh += '<span class="history-detail">'+g.playerCount+'人 / '+g.rounds+'R</span>';
-    lh += '<span class="history-result '+(g.won?'win':'lose')+'">'+(g.won?'🏆 優勝':g.rank+'位')+'</span>';
+    lh += '<span class="history-date">' + ds + '</span>';
+    lh += '<span class="history-detail">' + g.playerCount + (currentLang === 'en' ? 'P / ' : '人 / ') + g.rounds + 'R</span>';
+    lh += '<span class="history-result ' + (g.won ? 'win' : 'lose') + '">' + (g.won ? '🏆' : g.rank + (currentLang === 'en' ? 'th' : '位')) + '</span>';
     lh += '</div>';
   });
   $('history-list').innerHTML = lh;
-  showScreen('screen-history');
 }
 
-// ===== Choice Sync =====
-function syncChoice(val){
-  val = clamp(Math.round(val)||0,0,100);
-  $('choice-slider').value = val;
-  $('choice-input').value = val;
+function renderPnPHistory() {
+  const hist = JSON.parse(localStorage.getItem(PNP_STORAGE_KEY) || '[]');
+  if (hist.length === 0) {
+    $('pnp-history-list').innerHTML = '<div class="no-data">' + t('noData') + '</div>';
+    return;
+  }
+  let lh = '';
+  [...hist].reverse().forEach(g => {
+    const d = new Date(g.date);
+    const ds = (d.getMonth() + 1) + '/' + d.getDate() + ' ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+    lh += '<div class="history-item">';
+    lh += '<span class="history-date">' + ds + '</span>';
+    lh += '<span class="history-detail">' + g.playerCount + (currentLang === 'en' ? 'P / ' : '人 / ') + g.rounds + 'R</span>';
+    lh += '<span class="history-result win">' + t('pnpHistoryWinner', { name: g.winner }) + '</span>';
+    lh += '</div>';
+  });
+  $('pnp-history-list').innerHTML = lh;
 }
 
-function getChoice(){
-  return clamp(parseInt($('choice-input').value)||0,0,100);
+// === UI / NAVIGATION ===
+function syncChoice(val, prefix) {
+  prefix = prefix || 'choice';
+  val = clamp(Math.round(val) || 0, 0, 100);
+  $(prefix + '-slider').value = val;
+  $(prefix + '-input').value = val;
 }
 
-// ===== Event Listeners =====
-$('player-count').addEventListener('input',function(){
-  const v = this.value;
-  $('player-count-val').textContent = v+'人（あなた + AI×'+(v-1)+'）';
+function getChoice(prefix) {
+  prefix = prefix || 'choice';
+  return clamp(parseInt($(prefix + '-input').value) || 0, 0, 100);
+}
+
+// === EVENT LISTENERS ===
+
+// Language
+$('lang-toggle').addEventListener('click', toggleLang);
+
+// Mode buttons
+$('btn-mode-ai').addEventListener('click', function() {
+  updateAiCountLabel();
+  showScreen('screen-ai-count');
 });
 
-$('btn-start').addEventListener('click',startGame);
+$('btn-mode-pnp').addEventListener('click', function() {
+  updatePnpCountLabel();
+  renderPnpNames();
+  showScreen('screen-pnp-setup');
+});
 
-$('btn-history').addEventListener('click',function(){
+$('btn-mode-history').addEventListener('click', function() {
+  historyTab = 'ai';
   renderHistory();
   showScreen('screen-history');
 });
 
-$('choice-slider').addEventListener('input',function(){ syncChoice(+this.value); });
-$('choice-input').addEventListener('change',function(){ syncChoice(+this.value); });
-$('choice-input').addEventListener('blur',function(){ syncChoice(+this.value); });
+// AI count screen
+$('ai-player-count').addEventListener('input', updateAiCountLabel);
+$('btn-ai-next').addEventListener('click', initCharSelect);
+$('btn-back-ai-count').addEventListener('click', function() { showScreen('screen-title'); });
 
-$('btn-minus5').addEventListener('click',function(){ syncChoice(getChoice()-5); });
-$('btn-minus1').addEventListener('click',function(){ syncChoice(getChoice()-1); });
-$('btn-plus1').addEventListener('click',function(){ syncChoice(getChoice()+1); });
-$('btn-plus5').addEventListener('click',function(){ syncChoice(getChoice()+5); });
+// Character select
+$('btn-back-char').addEventListener('click', function() { showScreen('screen-ai-count'); });
+$('btn-all-random').addEventListener('click', allSlotsRandom);
+$('btn-start-battle').addEventListener('click', startAIGame);
 
-$('btn-confirm').addEventListener('click',function(){
-  this.disabled = true;
-  if(navigator.vibrate) navigator.vibrate(30);
-  const val = getChoice();
-  const result = processRound(val);
-  setTimeout(()=>renderResult(result), 200);
+// Modal
+$('modal-char-close').addEventListener('click', function() { $('modal-char').style.display = 'none'; });
+$('modal-char').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
 });
 
-$('btn-next').addEventListener('click',function(){
-  if(game.gameOver){
+// Game: AI choice sync
+$('choice-slider').addEventListener('input', function() { syncChoice(+this.value, 'choice'); });
+$('choice-input').addEventListener('change', function() { syncChoice(+this.value, 'choice'); });
+$('choice-input').addEventListener('blur', function() { syncChoice(+this.value, 'choice'); });
+$('btn-minus5').addEventListener('click', function() { syncChoice(getChoice('choice') - 5, 'choice'); });
+$('btn-minus1').addEventListener('click', function() { syncChoice(getChoice('choice') - 1, 'choice'); });
+$('btn-plus1').addEventListener('click', function() { syncChoice(getChoice('choice') + 1, 'choice'); });
+$('btn-plus5').addEventListener('click', function() { syncChoice(getChoice('choice') + 5, 'choice'); });
+$('btn-confirm').addEventListener('click', confirmAIChoice);
+
+// PnP choice sync
+$('pnp-choice-slider').addEventListener('input', function() { syncChoice(+this.value, 'pnp-choice'); });
+$('pnp-choice-input').addEventListener('change', function() { syncChoice(+this.value, 'pnp-choice'); });
+$('pnp-choice-input').addEventListener('blur', function() { syncChoice(+this.value, 'pnp-choice'); });
+$('pnp-btn-minus5').addEventListener('click', function() { syncChoice(getChoice('pnp-choice') - 5, 'pnp-choice'); });
+$('pnp-btn-minus1').addEventListener('click', function() { syncChoice(getChoice('pnp-choice') - 1, 'pnp-choice'); });
+$('pnp-btn-plus1').addEventListener('click', function() { syncChoice(getChoice('pnp-choice') + 1, 'pnp-choice'); });
+$('pnp-btn-plus5').addEventListener('click', function() { syncChoice(getChoice('pnp-choice') + 5, 'pnp-choice'); });
+$('btn-pnp-confirm').addEventListener('click', confirmPnPChoice);
+
+// Result / next
+$('btn-next').addEventListener('click', function() {
+  if (game.gameOver) {
     renderGameOver();
   } else {
     game.round++;
-    $('choice-slider').value = 50;
-    $('choice-input').value = 50;
-    showScreen('screen-game');
-    renderGame();
+    if (gameMode === 'ai') {
+      syncChoice(50, 'choice');
+      showScreen('screen-game');
+      renderGame();
+    } else {
+      startPnPTurn();
+    }
   }
 });
 
-$('btn-return').addEventListener('click',function(){
+$('btn-return').addEventListener('click', function() {
   game = null;
+  gameMode = null;
+  pnpState = null;
   showScreen('screen-title');
 });
 
-$('btn-back-hist').addEventListener('click',function(){
-  showScreen('screen-title');
+// PnP setup
+$('pnp-player-count').addEventListener('input', function() {
+  updatePnpCountLabel();
+  renderPnpNames();
 });
+$('btn-back-pnp').addEventListener('click', function() { showScreen('screen-title'); });
+$('btn-pnp-start').addEventListener('click', startPnPGame);
 
-$('btn-clear-hist').addEventListener('click',function(){
-  if(confirm('戦績を全てリセットしますか？')){
-    localStorage.removeItem(STORAGE_KEY);
+// PnP turn flow
+$('btn-pnp-ready').addEventListener('click', showPnPInput);
+$('btn-pnp-next-player').addEventListener('click', nextPnPPlayer);
+$('btn-pnp-reveal').addEventListener('click', revealPnPResults);
+
+// History
+$('tab-ai').addEventListener('click', function() { historyTab = 'ai'; updateHistoryTabs(); });
+$('tab-pnp').addEventListener('click', function() { historyTab = 'pnp'; updateHistoryTabs(); });
+$('btn-back-hist').addEventListener('click', function() { showScreen('screen-title'); });
+$('btn-clear-hist').addEventListener('click', function() {
+  if (confirm(t('clearConfirm'))) {
+    if (historyTab === 'ai') {
+      localStorage.removeItem(STORAGE_KEY);
+    } else {
+      localStorage.removeItem(PNP_STORAGE_KEY);
+    }
     renderHistory();
   }
 });
 
-// ===== PWA =====
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+// === PWA ===
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js').catch(() => {});
 }
+
+// === INIT ===
+applyI18n();
+updateAiCountLabel();
+updatePnpCountLabel();
 </script>
 </body>
 </html>
