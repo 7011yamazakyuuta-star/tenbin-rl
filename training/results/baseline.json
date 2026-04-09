@@ -1,0 +1,132 @@
+{
+  "Random vs Level1(40) vs Level2(32) vs LevelK(3)": {
+    "Random": {
+      "win_rate": 0.0003,
+      "avg_rank": 3.889,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "Level1(40)": {
+      "win_rate": 0.0001,
+      "avg_rank": 2.915,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "Level2(32)": {
+      "win_rate": 0.0132,
+      "avg_rank": 2.169,
+      "avg_final_points": -9.94,
+      "games": 10000
+    },
+    "LevelK(3)": {
+      "win_rate": 0.9864,
+      "avg_rank": 1.026,
+      "avg_final_points": -5.86,
+      "games": 10000
+    }
+  },
+  "All Random (4 players)": {
+    "Random-A": {
+      "win_rate": 0.2498,
+      "avg_rank": 2.616,
+      "avg_final_points": -9.48,
+      "games": 10000
+    },
+    "Random-B": {
+      "win_rate": 0.2452,
+      "avg_rank": 2.55,
+      "avg_final_points": -9.48,
+      "games": 10000
+    },
+    "Random-C": {
+      "win_rate": 0.2517,
+      "avg_rank": 2.443,
+      "avg_final_points": -9.49,
+      "games": 10000
+    },
+    "Random-D": {
+      "win_rate": 0.2533,
+      "avg_rank": 2.392,
+      "avg_final_points": -9.48,
+      "games": 10000
+    }
+  },
+  "CH(1.5) vs Random vs Level1 vs Level2": {
+    "CH(1.5)": {
+      "win_rate": 0.0,
+      "avg_rank": 3.146,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "Random": {
+      "win_rate": 0.007,
+      "avg_rank": 3.749,
+      "avg_final_points": -9.99,
+      "games": 10000
+    },
+    "Level1(40)": {
+      "win_rate": 0.0048,
+      "avg_rank": 2.079,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "Level2(32)": {
+      "win_rate": 0.9882,
+      "avg_rank": 1.026,
+      "avg_final_points": -4.7,
+      "games": 10000
+    }
+  },
+  "Level-k Tournament (k=0,1,2,3)": {
+    "LevelK(0)=50": {
+      "win_rate": 0.0,
+      "avg_rank": 4.0,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "LevelK(1)=40": {
+      "win_rate": 0.0,
+      "avg_rank": 3.0,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "LevelK(2)=32": {
+      "win_rate": 1.0,
+      "avg_rank": 1.0,
+      "avg_final_points": 0.0,
+      "games": 10000
+    },
+    "LevelK(3)=26": {
+      "win_rate": 0.0,
+      "avg_rank": 2.0,
+      "avg_final_points": -10.0,
+      "games": 10000
+    }
+  },
+  "CH variants (tau=0.5, 1.0, 1.5, 2.0)": {
+    "CH(0.5)": {
+      "win_rate": 0.0,
+      "avg_rank": 4.0,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "CH(1.0)": {
+      "win_rate": 0.0,
+      "avg_rank": 3.0,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "CH(1.5)": {
+      "win_rate": 0.0,
+      "avg_rank": 2.0,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "CH(2.0)": {
+      "win_rate": 1.0,
+      "avg_rank": 1.0,
+      "avg_final_points": 0.0,
+      "games": 10000
+    }
+  }
+}
