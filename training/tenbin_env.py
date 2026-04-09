@@ -208,6 +208,9 @@ class TenbinEnv(gym.Env):
         self._history = []
         self._elimination_order = []
         self._done = False
+        # 動的エージェントの状態をリセット
+        for opp in self.opponents:
+            opp.reset()
         return self._get_obs(), {}
 
     def step(self, action):
@@ -247,6 +250,10 @@ class TenbinEnv(gym.Env):
         self._eliminated_count = result["new_eliminated_count"]
         self._elimination_order.extend(result["newly_eliminated"])
         self._history.append((choices, result["target"]))
+
+        # 動的エージェントに結果を通知
+        for opp in self.opponents:
+            opp.observe(choices, result["target"], self._round)
 
         # ゲーム終了判定
         alive_count = sum(self._alive)

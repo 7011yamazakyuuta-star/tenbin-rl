@@ -1,0 +1,184 @@
+{
+  "agents": [
+    "Random",
+    "Fixed(40)",
+    "Fixed(32)",
+    "LevelK(3)",
+    "CH(1.5)",
+    "Adaptive",
+    "HistLK(2)",
+    "Bomber",
+    "HumanLike"
+  ],
+  "overall": {
+    "Random": {
+      "games": 56000,
+      "wins": 626,
+      "win_rate": 0.0112,
+      "avg_rank": 3.814,
+      "elo": 1077.9
+    },
+    "Fixed(40)": {
+      "games": 56000,
+      "wins": 2044,
+      "win_rate": 0.0365,
+      "avg_rank": 3.391,
+      "elo": 1082.5
+    },
+    "Fixed(32)": {
+      "games": 56000,
+      "wins": 11350,
+      "win_rate": 0.2027,
+      "avg_rank": 2.291,
+      "elo": 1582.0
+    },
+    "LevelK(3)": {
+      "games": 56000,
+      "wins": 34014,
+      "win_rate": 0.6074,
+      "avg_rank": 1.484,
+      "elo": 1764.9
+    },
+    "CH(1.5)": {
+      "games": 56000,
+      "wins": 2109,
+      "win_rate": 0.0377,
+      "avg_rank": 2.947,
+      "elo": 1112.6
+    },
+    "Adaptive": {
+      "games": 56000,
+      "wins": 29293,
+      "win_rate": 0.5231,
+      "avg_rank": 1.844,
+      "elo": 1635.5
+    },
+    "HistLK(2)": {
+      "games": 56000,
+      "wins": 32370,
+      "win_rate": 0.578,
+      "avg_rank": 1.468,
+      "elo": 1870.7
+    },
+    "Bomber": {
+      "games": 56000,
+      "wins": 4798,
+      "win_rate": 0.0857,
+      "avg_rank": 2.876,
+      "elo": 1422.6
+    },
+    "HumanLike": {
+      "games": 56000,
+      "wins": 9396,
+      "win_rate": 0.1678,
+      "avg_rank": 2.386,
+      "elo": 1951.3
+    }
+  },
+  "pairwise_win_rate": {
+    "Random": {
+      "Random": null,
+      "Fixed(40)": 0.0979,
+      "Fixed(32)": 0.0226,
+      "LevelK(3)": 0.0141,
+      "CH(1.5)": 0.1028,
+      "Adaptive": 0.0273,
+      "HistLK(2)": 0.0272,
+      "Bomber": 0.0664,
+      "HumanLike": 0.1388
+    },
+    "Fixed(40)": {
+      "Random": 0.9021,
+      "Fixed(40)": null,
+      "Fixed(32)": 0.0458,
+      "LevelK(3)": 0.0128,
+      "CH(1.5)": 0.0,
+      "Adaptive": 0.0807,
+      "HistLK(2)": 0.0798,
+      "Bomber": 0.3533,
+      "HumanLike": 0.1506
+    },
+    "Fixed(32)": {
+      "Random": 0.9774,
+      "Fixed(40)": 0.9542,
+      "Fixed(32)": null,
+      "LevelK(3)": 0.0889,
+      "CH(1.5)": 0.7658,
+      "Adaptive": 0.2153,
+      "HistLK(2)": 0.215,
+      "Bomber": 0.8496,
+      "HumanLike": 0.4917
+    },
+    "LevelK(3)": {
+      "Random": 0.9859,
+      "Fixed(40)": 0.9872,
+      "Fixed(32)": 0.9111,
+      "LevelK(3)": null,
+      "CH(1.5)": 0.9844,
+      "Adaptive": 0.4956,
+      "HistLK(2)": 0.4945,
+      "Bomber": 0.9547,
+      "HumanLike": 0.8965
+    },
+    "CH(1.5)": {
+      "Random": 0.8972,
+      "Fixed(40)": 1.0,
+      "Fixed(32)": 0.2342,
+      "LevelK(3)": 0.0156,
+      "CH(1.5)": null,
+      "Adaptive": 0.0796,
+      "HistLK(2)": 0.0796,
+      "Bomber": 0.3493,
+      "HumanLike": 0.1511
+    },
+    "Adaptive": {
+      "Random": 0.9727,
+      "Fixed(40)": 0.9193,
+      "Fixed(32)": 0.7847,
+      "LevelK(3)": 0.5044,
+      "CH(1.5)": 0.9204,
+      "Adaptive": null,
+      "HistLK(2)": 0.0,
+      "Bomber": 0.8754,
+      "HumanLike": 0.7732
+    },
+    "HistLK(2)": {
+      "Random": 0.9728,
+      "Fixed(40)": 0.9202,
+      "Fixed(32)": 0.785,
+      "LevelK(3)": 0.5055,
+      "CH(1.5)": 0.9204,
+      "Adaptive": 1.0,
+      "HistLK(2)": null,
+      "Bomber": 0.8735,
+      "HumanLike": 0.7739
+    },
+    "Bomber": {
+      "Random": 0.9336,
+      "Fixed(40)": 0.6467,
+      "Fixed(32)": 0.1504,
+      "LevelK(3)": 0.0453,
+      "CH(1.5)": 0.6507,
+      "Adaptive": 0.1246,
+      "HistLK(2)": 0.1265,
+      "Bomber": null,
+      "HumanLike": 0.3194
+    },
+    "HumanLike": {
+      "Random": 0.8612,
+      "Fixed(40)": 0.8494,
+      "Fixed(32)": 0.5083,
+      "LevelK(3)": 0.1035,
+      "CH(1.5)": 0.8489,
+      "Adaptive": 0.2268,
+      "HistLK(2)": 0.2261,
+      "Bomber": 0.6806,
+      "HumanLike": null
+    }
+  },
+  "config": {
+    "games_per_matchup": 1000,
+    "total_games": 126000,
+    "seed": 42
+  }
+}

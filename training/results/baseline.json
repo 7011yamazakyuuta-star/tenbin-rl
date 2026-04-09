@@ -128,5 +128,57 @@
       "avg_final_points": 0.0,
       "games": 10000
     }
+  },
+  "Dynamic agents vs Static baselines": {
+    "Adaptive": {
+      "win_rate": 0.0,
+      "avg_rank": 2.832,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "HistoryLK(2)": {
+      "win_rate": 0.1676,
+      "avg_rank": 1.832,
+      "avg_final_points": -10.0,
+      "games": 10000
+    },
+    "BombThrower": {
+      "win_rate": 0.0918,
+      "avg_rank": 3.725,
+      "avg_final_points": -9.89,
+      "games": 10000
+    },
+    "HumanLike": {
+      "win_rate": 0.7406,
+      "avg_rank": 1.611,
+      "avg_final_points": -8.35,
+      "games": 10000
+    }
+  },
+  "Dynamic vs LevelK(3) vs Level2(32) vs Random": {
+    "Adaptive": {
+      "win_rate": 0.9283,
+      "avg_rank": 1.201,
+      "avg_final_points": -7.02,
+      "games": 10000
+    },
+    "LevelK(3)": {
+      "win_rate": 0.0583,
+      "avg_rank": 2.609,
+      "avg_final_points": -9.83,
+      "games": 10000
+    },
+    "Level2(32)": {
+      "win_rate": 0.0129,
+      "avg_rank": 2.418,
+      "avg_final_points": -9.94,
+      "games": 10000
+    },
+    "Random": {
+      "win_rate": 0.0005,
+      "avg_rank": 3.772,
+      "avg_final_points": -10.0,
+      "games": 10000
+    }
   }
 }

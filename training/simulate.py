@@ -19,8 +19,12 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from agents import (
+    AdaptiveAgent,
+    BombThrowerAgent,
     CognitiveHierarchyAgent,
     FixedAgent,
+    HistoryLevelKAgent,
+    HumanLikeAgent,
     LevelKAgent,
     RandomAgent,
 )
@@ -48,6 +52,10 @@ def simulate_game(agents, max_rounds=200) -> dict:
     elimination_order: list[int] = []
     round_num = 0
 
+    # 動的エージェントの状態をリセット
+    for agent in agents:
+        agent.reset()
+
     while sum(alive) > 1 and round_num < max_rounds:
         round_num += 1
 
@@ -59,6 +67,10 @@ def simulate_game(agents, max_rounds=200) -> dict:
 
         # ラウンド処理（JSと同一ロジック）
         result = process_round(choices, alive, points, eliminated_count)
+
+        # 動的エージェントに結果を通知
+        for agent in agents:
+            agent.observe(choices, result["target"], round_num)
 
         # 状態更新
         points = result["new_points"]
@@ -188,6 +200,24 @@ CONFIGURATIONS = [
             ("CH(1.0)", lambda _: CognitiveHierarchyAgent(1.0)),
             ("CH(1.5)", lambda _: CognitiveHierarchyAgent(1.5)),
             ("CH(2.0)", lambda _: CognitiveHierarchyAgent(2.0)),
+        ],
+    },
+    {
+        "name": "Dynamic agents vs Static baselines",
+        "agents": [
+            ("Adaptive", lambda _: AdaptiveAgent()),
+            ("HistoryLK(2)", lambda _: HistoryLevelKAgent(k=2)),
+            ("BombThrower", lambda rng: BombThrowerAgent(rng=rng)),
+            ("HumanLike", lambda rng: HumanLikeAgent(rng=rng)),
+        ],
+    },
+    {
+        "name": "Dynamic vs LevelK(3) vs Level2(32) vs Random",
+        "agents": [
+            ("Adaptive", lambda _: AdaptiveAgent()),
+            ("LevelK(3)", lambda _: LevelKAgent(3)),
+            ("Level2(32)", lambda _: FixedAgent(32)),
+            ("Random", lambda rng: RandomAgent(rng)),
         ],
     },
 ]
