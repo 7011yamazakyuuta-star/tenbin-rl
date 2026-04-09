@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="102" fill="url(#bg)"/>
+  <!-- Diamond -->
+  <polygon points="256,60 370,256 256,452 142,256" fill="none" stroke="#e94560" stroke-width="8"/>
+  <!-- Balance/Scale -->
+  <line x1="256" y1="150" x2="256" y2="300" stroke="#f5c518" stroke-width="6" stroke-linecap="round"/>
+  <line x1="170" y1="210" x2="342" y2="210" stroke="#f5c518" stroke-width="6" stroke-linecap="round"/>
+  <!-- Left pan -->
+  <line x1="170" y1="210" x2="145" y2="265" stroke="#f5c518" stroke-width="4"/>
+  <line x1="170" y1="210" x2="195" y2="265" stroke="#f5c518" stroke-width="4"/>
+  <path d="M138,265 Q170,300 202,265" fill="none" stroke="#f5c518" stroke-width="4"/>
+  <!-- Right pan -->
+  <line x1="342" y1="210" x2="317" y2="265" stroke="#f5c518" stroke-width="4"/>
+  <line x1="342" y1="210" x2="367" y2="265" stroke="#f5c518" stroke-width="4"/>
+  <path d="M310,265 Q342,300 374,265" fill="none" stroke="#f5c518" stroke-width="4"/>
+  <!-- Base -->
+  <polygon points="236,300 276,300 290,330 222,330" fill="#f5c518"/>
+  <!-- K -->
+  <text x="256" y="405" text-anchor="middle" font-family="serif" font-size="72" font-weight="bold" fill="#e94560">K</text>
+</svg>
