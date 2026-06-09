@@ -432,6 +432,81 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
 .rules-modal-body h4{color:var(--text);margin:12px 0 4px;font-size:.9rem}
 .rules-modal-body h4:first-child{margin-top:0}
 .rules-modal-body ul{padding-left:1.2em}
+/* ========== GAME SCREEN (Diamond Noir) ========== */
+.game-screen{gap:9px}
+.game-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:0}
+.game-nav-btn{
+  min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text-muted);cursor:pointer;transition:transform .1s,color .2s,border-color .2s;backdrop-filter:blur(6px);
+}
+.game-nav-btn:active{transform:scale(.92);border-color:var(--accent-soft)}
+.game-nav-btn .nav-ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.round-counter{font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--text);letter-spacing:.04em}
+.round-counter .rc-num{color:var(--gold)}
+.game-subhead{display:flex;flex-direction:column;align-items:center;gap:2px}
+.game-tagline{font-size:.58rem;letter-spacing:.32em;color:var(--text-dim);text-transform:uppercase}
+.alive-count{font-size:.68rem;color:var(--text-muted);letter-spacing:.04em}
+.active-rules{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:0;margin:2px 0}
+.active-rules .badge{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:.64rem;letter-spacing:.04em;font-weight:600;background:var(--bg-card);backdrop-filter:blur(6px)}
+.active-rules .badge-rule{color:var(--accent);border:1px solid var(--accent-soft)}
+.active-rules .badge-rule2{color:var(--gold);border:1px solid rgba(232,193,106,.4)}
+.active-rules .badge-rule3{color:var(--purple);border:1px solid rgba(168,85,247,.4)}
+.game-columns{display:flex;gap:11px;flex:1;min-height:0;margin-bottom:10px}
+.game-columns .player-list{flex:0 0 39%;display:flex;flex-direction:column;gap:8px;overflow-y:auto;margin:0;padding:0}
+.pcard{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;
+  padding:11px 6px 9px;border-radius:10px;
+  background:var(--bg-card);border:1px solid var(--border);backdrop-filter:blur(6px);
+  transition:opacity .3s,border-color .2s;
+}
+.pcard.you{border-color:rgba(232,193,106,.5);box-shadow:0 0 14px rgba(232,193,106,.12)}
+.pcard.eliminated{opacity:.32;filter:grayscale(.6)}
+.pcard-pip{position:absolute;top:5px;left:7px;font-size:.72rem;line-height:1}
+.pcard-portrait{font-size:1.95rem;line-height:1;margin-top:3px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.pcard-name{font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-top:2px}
+.pcard-pts{font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:var(--gold);line-height:1.05;display:flex;flex-direction:column;align-items:center;margin-top:2px}
+.pcard-pts small{font-family:var(--font-body);font-size:.48rem;letter-spacing:.18em;color:var(--text-dim);font-weight:600}
+.pcard-pts.pts-warn{color:var(--gold)}
+.pcard-pts.pts-danger{color:var(--danger)}
+.pcard-status{font-size:.58rem;color:var(--danger);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.number-panel{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  padding:14px 12px;border-radius:var(--radius);
+  background:rgba(225,29,72,.03);border:1px solid var(--accent-soft);
+  box-shadow:var(--glow-red),inset 0 0 30px rgba(225,29,72,.05);backdrop-filter:blur(6px);
+}
+.np-label{font-size:.58rem;letter-spacing:.26em;color:var(--accent);text-transform:uppercase;text-align:center}
+.np-range{font-size:.68rem;letter-spacing:.2em;color:var(--text-dim);margin-top:-3px}
+.choice-diamond{position:relative;width:168px;max-width:46vw;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;margin:1px 0}
+.cd-frame{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cd-frame polygon{fill:none;stroke:var(--accent);stroke-width:1.5;filter:drop-shadow(0 0 6px rgba(225,29,72,.6))}
+.cd-frame .cd-frame-inner{stroke:rgba(225,29,72,.4);stroke-width:1;filter:none}
+.choice-diamond .choice-input{
+  position:relative;z-index:1;width:90%;text-align:center;border:none;background:transparent;outline:none;
+  font-family:var(--font-display);font-size:4.2rem;font-weight:700;color:var(--gold);
+  text-shadow:0 0 18px rgba(232,193,106,.35);-moz-appearance:textfield;
+}
+.choice-diamond .choice-input::-webkit-outer-spin-button,
+.choice-diamond .choice-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.number-panel .slider-row{display:flex;align-items:center;gap:8px;width:100%;margin:2px 0 0}
+.number-panel .slider-row span{font-size:.68rem;color:var(--text-dim);min-width:20px;text-align:center}
+.number-panel input[type=range]{height:3px;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.number-panel input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;background:var(--accent);border-radius:2px;transform:rotate(45deg);box-shadow:0 0 10px rgba(225,29,72,.7);cursor:pointer}
+.number-panel input[type=range]::-moz-range-thumb{width:15px;height:15px;background:var(--accent);border-radius:2px;transform:rotate(45deg);box-shadow:0 0 10px rgba(225,29,72,.7);border:none;cursor:pointer}
+.number-panel .adjust-row{display:flex;justify-content:center;gap:10px;margin:6px 0 0}
+.number-panel .btn-adjust{
+  width:46px;height:38px;border-radius:9px;border:1px solid var(--border);
+  background:var(--bg-card2);color:var(--text);font-family:var(--font-display);font-size:1rem;font-weight:700;
+  cursor:pointer;transition:transform .1s,border-color .2s;backdrop-filter:blur(6px);
+}
+.number-panel .btn-adjust:active{transform:scale(.94);border-color:var(--accent-soft)}
+.decide-btn{margin-top:auto;font-family:var(--font-display);font-size:1.15rem;letter-spacing:.16em;padding:16px}
+@media (max-width:359px){
+  .game-columns{flex-direction:column}
+  .game-columns .player-list{flex:none;flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .game-columns .player-list .pcard{flex:0 0 calc(33.3% - 6px)}
+}
 </style>
 </head>
 <body>
@@ -457,6 +532,12 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
   </symbol>
   <symbol id="ic-diamond" viewBox="0 0 24 24">
     <polygon points="12,2.5 21.5,12 12,21.5 2.5,12"/>
+  </symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24">
+    <path d="M4 11.4 12 4l8 7.4"/><path d="M6 10.2V20h12v-9.8"/><path d="M10 20v-5h4v5"/>
+  </symbol>
+  <symbol id="ic-pause" viewBox="0 0 24 24">
+    <line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/>
   </symbol>
 </svg>
 
@@ -557,34 +638,47 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
 </section>
 
 <!-- ===== GAME SCREEN ===== -->
-<section id="screen-game" class="screen">
+<section id="screen-game" class="screen game-screen">
   <div class="game-nav">
-    <button class="game-nav-btn" id="btn-game-home">🏠</button>
-    <span class="badge badge-round" id="round-badge"></span>
-    <button class="game-nav-btn" id="btn-game-pause">⏸️</button>
+    <button class="game-nav-btn" id="btn-game-home" type="button" aria-label="Home">
+      <svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-home"/></svg>
+    </button>
+    <div class="round-counter" id="round-badge"></div>
+    <button class="game-nav-btn" id="btn-game-pause" type="button" aria-label="Pause">
+      <svg class="nav-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-pause"/></svg>
+    </button>
   </div>
-  <div class="game-header">
-    <div class="active-rules" id="active-rules"></div>
-    <span style="font-size:.8rem;color:var(--text-dim)" id="alive-count"></span>
+  <div class="game-subhead">
+    <span class="game-tagline">SURVIVE &middot; BALANCE &middot; OUTTHINK</span>
+    <span class="alive-count" id="alive-count"></span>
   </div>
-  <div class="player-list" id="player-list"></div>
-  <div class="input-section" id="input-section">
-    <div class="input-value-row">
-      <input type="number" class="choice-input" id="choice-input" min="0" max="100" value="50" inputmode="numeric" pattern="[0-9]*">
+  <div class="active-rules" id="active-rules"></div>
+  <div class="game-columns">
+    <div class="player-list" id="player-list"></div>
+    <div class="number-panel" id="input-section">
+      <div class="np-label">CHOOSE YOUR NUMBER</div>
+      <div class="np-range">0 – 100</div>
+      <div class="choice-diamond">
+        <svg class="cd-frame" viewBox="0 0 200 200" aria-hidden="true">
+          <polygon points="100,8 192,100 100,192 8,100"/>
+          <polygon class="cd-frame-inner" points="100,32 168,100 100,168 32,100"/>
+        </svg>
+        <input type="number" class="choice-input" id="choice-input" min="0" max="100" value="50" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <div class="slider-row">
+        <span>0</span>
+        <input type="range" min="0" max="100" value="50" id="choice-slider">
+        <span>100</span>
+      </div>
+      <div class="adjust-row">
+        <button class="btn-adjust" id="btn-minus5" type="button">-5</button>
+        <button class="btn-adjust" id="btn-minus1" type="button">-1</button>
+        <button class="btn-adjust" id="btn-plus1" type="button">+1</button>
+        <button class="btn-adjust" id="btn-plus5" type="button">+5</button>
+      </div>
     </div>
-    <div class="slider-row">
-      <span>0</span>
-      <input type="range" min="0" max="100" value="50" id="choice-slider">
-      <span>100</span>
-    </div>
-    <div class="adjust-row">
-      <button class="btn-adjust" id="btn-minus5">-5</button>
-      <button class="btn-adjust" id="btn-minus1">-1</button>
-      <button class="btn-adjust" id="btn-plus1">+1</button>
-      <button class="btn-adjust" id="btn-plus5">+5</button>
-    </div>
-    <button class="btn btn-gold" id="btn-confirm" data-i18n="confirm">決定</button>
   </div>
+  <button class="btn btn-gold decide-btn" id="btn-confirm" data-i18n="confirm">決定</button>
 </section>
 
 <!-- ===== RESULT SCREEN ===== -->
@@ -1402,7 +1496,7 @@ function startAIGame() {
 }
 
 function renderGame() {
-  $('round-badge').textContent = t('round', { n: game.round });
+  $('round-badge').innerHTML = t('round', { n: '<span class="rc-num">' + game.round + '</span>' });
   const alive = game.players.filter(p => p.alive).length;
   $('alive-count').textContent = t('remaining', { n: alive });
 
@@ -1416,17 +1510,15 @@ function renderGame() {
   let ph = '';
   game.players.forEach(p => {
     const elim = !p.alive;
-    ph += '<div class="player-card' + (elim ? ' eliminated' : '') + '">';
-    ph += '<div class="player-dot" style="background:' + p.color + '"></div>';
-    ph += '<div class="player-name">';
-    if (p.icon) ph += '<span style="margin-right:4px">' + p.icon + '</span>';
-    ph += p.name;
-    ph += '</div>';
+    ph += '<div class="pcard' + (elim ? ' eliminated' : '') + (p.isHuman ? ' you' : '') + '">';
+    ph += '<span class="pcard-pip" style="color:' + p.color + '">♦</span>';
+    ph += '<div class="pcard-portrait">' + (p.icon || '♦') + '</div>';
+    ph += '<div class="pcard-name">' + p.name + '</div>';
     if (elim) {
-      ph += '<span class="player-status">' + t('eliminated') + '</span>';
+      ph += '<div class="pcard-status">' + t('eliminated') + '</div>';
     } else {
-      const ptColor = p.points <= -7 ? 'var(--danger)' : p.points <= -4 ? 'var(--gold)' : 'var(--text)';
-      ph += '<span class="player-pts" style="color:' + ptColor + '">' + p.points + ' pt</span>';
+      const ptCls = p.points <= -7 ? 'pts-danger' : (p.points <= -4 ? 'pts-warn' : '');
+      ph += '<div class="pcard-pts ' + ptCls + '">' + p.points + '<small>PTS</small></div>';
     }
     ph += '</div>';
   });
