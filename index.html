@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="てんびん">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#0a0a0e">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.svg">
 <title>てんびん - ダイヤのキング</title>
@@ -14,26 +14,36 @@
 /* ========== BASE ========== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0f0f1a;--bg-card:#1a1a2e;--bg-card2:#222244;
-  --accent:#e94560;--accent2:#c0392b;--gold:#f5c518;--gold-dim:#b8960f;
-  --text:#e8e8e8;--text-muted:#999;--text-dim:#666;
-  --success:#10b981;--danger:#ef4444;--info:#0ea5e9;--purple:#a855f7;
-  --border:#2a2a4a;--radius:12px;--radius-sm:8px;
-  --char-color:#888;
+  --bg:#0a0a0e;--bg-deep:#060608;--bg-card:rgba(255,255,255,.025);--bg-card2:rgba(255,255,255,.05);
+  --accent:#e11d48;--accent2:#9f1239;--accent-soft:rgba(225,29,72,.45);--accent-glow:rgba(225,29,72,.5);
+  --gold:#e8c16a;--gold-dim:#a98841;
+  --text:#ececf1;--text-muted:#9a9aab;--text-dim:#5b5b6b;
+  --success:#34d399;--danger:#fb7185;--info:#38bdf8;--purple:#a855f7;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);--radius:14px;--radius-sm:9px;
+  --char-color:#9a9aab;
+  --glow-red:0 0 22px rgba(225,29,72,.40);
+  --font-display:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Songti SC","Times New Roman",serif;
+  --font-body:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
 }
-@media(prefers-color-scheme:light){
-  :root{
-    --bg:#f0f0f5;--bg-card:#ffffff;--bg-card2:#f5f5fa;
-    --text:#1a1a2e;--text-muted:#666;--text-dim:#999;
-    --border:#ddd;
-  }
-}
+/* "Diamond Noir" is a dark-only theme — light mode intentionally omitted for a cohesive identity. */
 html{font-size:16px}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
-  background:var(--bg);color:var(--text);
+  font-family:var(--font-body);
+  background:var(--bg-deep);color:var(--text);
   min-height:100dvh;overflow-x:hidden;
   -webkit-tap-highlight-color:transparent;
+}
+/* atmospheric background: crimson vignette + faint grain */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(125% 80% at 50% -10%,rgba(225,29,72,.13),transparent 55%),
+    radial-gradient(120% 70% at 50% 110%,rgba(225,29,72,.07),transparent 55%),
+    var(--bg);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .screen{
   display:none;flex-direction:column;
@@ -55,9 +65,9 @@ body{
 @keyframes scaleIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 
 /* ========== TYPOGRAPHY ========== */
-h1{font-size:2rem;font-weight:800;letter-spacing:.05em}
-h2{font-size:1.4rem;font-weight:700}
-h3{font-size:1.1rem;font-weight:600}
+h1{font-family:var(--font-display);font-size:2.3rem;font-weight:700;letter-spacing:.03em}
+h2{font-family:var(--font-display);font-size:1.45rem;font-weight:700;letter-spacing:.01em}
+h3{font-size:1.05rem;font-weight:600}
 
 /* ========== BUTTONS ========== */
 .btn{
@@ -68,14 +78,14 @@ h3{font-size:1.1rem;font-weight:600}
 }
 .btn:active{transform:scale(.97);opacity:.85}
 .btn:disabled{opacity:.4;pointer-events:none}
-.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px rgba(233,69,96,.25)}
-.btn-secondary{background:var(--bg-card);color:var(--text);border:1px solid var(--border)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dim));color:#1a1a2e}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 6px 22px rgba(225,29,72,.32),inset 0 1px 0 rgba(255,255,255,.14)}
+.btn-secondary{background:var(--bg-card);color:var(--text);border:1px solid var(--border);backdrop-filter:blur(6px)}
+.btn-gold{background:linear-gradient(135deg,#f0d089,var(--gold-dim));color:#160f04;box-shadow:0 6px 22px rgba(232,193,106,.22),inset 0 1px 0 rgba(255,255,255,.3)}
 .btn-sm{padding:10px 16px;font-size:.9rem;width:auto;display:inline-block}
 .btn-back{background:none;border:none;color:var(--text-muted);font-size:1rem;cursor:pointer;padding:8px 0;text-align:left}
 
 /* ========== CARDS & BADGES ========== */
-.card{background:var(--bg-card);border-radius:var(--radius);padding:14px;border:1px solid var(--border)}
+.card{background:var(--bg-card);border-radius:var(--radius);padding:14px;border:1px solid var(--border);backdrop-filter:blur(6px)}
 .badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
 .badge-rule{background:rgba(233,69,96,.15);color:var(--accent);border:1px solid rgba(233,69,96,.3)}
 .badge-rule2{background:rgba(245,197,24,.15);color:var(--gold);border:1px solid rgba(245,197,24,.3)}
@@ -113,50 +123,72 @@ input[type="text"].name-input:focus{border-color:var(--gold)}
 /* ========== LANG TOGGLE ========== */
 .lang-toggle{
   position:absolute;top:calc(env(safe-area-inset-top,20px) + 14px);right:16px;
-  display:flex;align-items:center;gap:4px;
-  padding:6px 12px;border-radius:20px;
-  background:var(--bg-card);border:1px solid var(--border);
-  cursor:pointer;font-size:.8rem;font-weight:600;z-index:10;
-  transition:transform .1s;
+  display:flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:20px;
+  background:var(--bg-card);border:1px solid var(--border);backdrop-filter:blur(6px);
+  cursor:pointer;font-size:.78rem;font-weight:600;letter-spacing:.06em;z-index:10;
+  transition:transform .1s;color:var(--text-dim);
 }
 .lang-toggle:active{transform:scale(.95)}
+.lang-toggle .lang-div{opacity:.4}
+.lang-toggle .lang-seg{transition:color .2s,text-shadow .2s}
+html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:0 0 8px rgba(232,193,106,.4)}
 
-/* ========== TITLE SCREEN ========== */
-.title-wrap{position:relative}
-.title-logo{text-align:center;padding:40px 0 16px}
-.title-diamond{width:60px;height:60px;margin:0 auto 16px}
-.title-diamond svg{width:100%;height:100%}
-.title-sub{color:var(--accent);font-size:.9rem;letter-spacing:.2em;margin-top:4px}
-.title-quote{color:var(--text-muted);font-size:.8rem;text-align:center;margin:12px 0 4px;font-style:italic;line-height:1.6}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+/* ========== TITLE SCREEN (Diamond Noir) ========== */
+.title-screen{position:relative;justify-content:center;gap:4px}
+.title-hero{text-align:center;padding:6px 0 4px}
+.title-emblem{position:relative;width:230px;max-width:60vw;margin:0 auto}
+.emblem-svg{width:100%;height:auto;display:block;overflow:visible}
+.em-guide{fill:none;stroke:rgba(225,29,72,.16);stroke-width:1;stroke-dasharray:2 7}
+.em-guide2{fill:none;stroke:rgba(232,193,106,.12);stroke-width:1}
+.em-d-outer{fill:none;stroke:var(--accent);stroke-width:2.2;filter:drop-shadow(0 0 7px rgba(225,29,72,.75))}
+.em-d-inner{fill:none;stroke:rgba(225,29,72,.5);stroke-width:1}
+.em-k{font-family:var(--font-display);font-size:98px;font-weight:700;fill:var(--gold);filter:drop-shadow(0 0 11px rgba(232,193,106,.45))}
+.emblem-mult{position:absolute;top:44%;right:-4px;transform:translateX(100%);font-family:var(--font-display);font-size:1.05rem;color:var(--accent);text-shadow:0 0 10px rgba(225,29,72,.6);letter-spacing:.04em}
+.title-name{font-family:var(--font-display);font-size:3.3rem;font-weight:700;letter-spacing:.06em;margin-top:0;color:#fff;text-shadow:0 2px 22px rgba(255,255,255,.16),0 0 1px rgba(0,0,0,.5)}
+.title-tagline{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px;color:var(--gold);font-size:.72rem;letter-spacing:.42em;padding-left:.42em;font-weight:600}
+.title-tagline .tl-line{height:1px;width:32px;background:linear-gradient(90deg,transparent,var(--gold-dim))}
+.title-tagline .tl-line:last-child{background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
 .mode-btn{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:18px 10px;gap:4px;
+  padding:22px 12px 18px;gap:7px;min-height:136px;
   background:var(--bg-card);border:1px solid var(--border);
   border-radius:var(--radius);cursor:pointer;
-  transition:transform .1s;text-align:center;
+  transition:transform .12s,border-color .2s,box-shadow .2s;text-align:center;
   -webkit-tap-highlight-color:transparent;touch-action:manipulation;
-  position:relative;
+  position:relative;overflow:hidden;backdrop-filter:blur(6px);
+  font-family:inherit;color:var(--text);
 }
 .mode-btn:active{transform:scale(.97)}
-.mode-btn.primary{border-color:var(--accent);background:rgba(233,69,96,.06)}
-.mode-btn .mode-icon{font-size:1.6rem}
-.mode-btn .mode-label{font-weight:700;font-size:.9rem}
-.mode-btn .mode-desc{font-size:.7rem;color:var(--text-muted)}
-.mode-btn.disabled{opacity:.45;pointer-events:none}
+.mode-btn.primary{border-color:var(--accent-soft);background:rgba(225,29,72,.05);box-shadow:var(--glow-red),inset 0 0 26px rgba(225,29,72,.07)}
+.mode-ic{width:38px;height:38px;color:rgba(236,236,241,.82);fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.mode-btn.primary .mode-ic{color:var(--accent);filter:drop-shadow(0 0 6px rgba(225,29,72,.5))}
+.mode-sep{width:9px;height:9px;color:var(--gold-dim);fill:none;stroke:currentColor;stroke-width:1.6;opacity:.85}
+.mode-label{font-family:var(--font-display);font-weight:700;font-size:1.08rem;letter-spacing:.01em}
+.mode-desc{font-size:.6rem;color:var(--text-dim);letter-spacing:.13em;text-transform:uppercase;line-height:1.3}
+.mode-btn.disabled{opacity:.4;pointer-events:none}
 .mode-btn .coming-soon-tag{
-  position:absolute;top:6px;right:6px;
-  font-size:.55rem;background:var(--bg-card2);color:var(--text-dim);
-  padding:2px 6px;border-radius:4px;border:1px solid var(--border);
+  position:absolute;top:9px;right:9px;
+  font-size:.5rem;letter-spacing:.08em;background:rgba(255,255,255,.06);color:var(--text-muted);
+  padding:3px 7px;border-radius:5px;border:1px solid var(--border);text-transform:uppercase;
 }
 .title-rules-btn{
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  margin-top:16px;padding:10px;
-  background:none;border:1px solid var(--border);border-radius:var(--radius-sm);
-  color:var(--text-muted);font-size:.9rem;cursor:pointer;width:100%;
-  transition:transform .1s;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  margin:22px auto 0;padding:11px 42px;
+  background:none;border:1px solid rgba(232,193,106,.35);border-radius:24px;
+  color:var(--gold);font-family:var(--font-display);font-size:.95rem;letter-spacing:.08em;cursor:pointer;
+  transition:transform .1s,background .2s,box-shadow .2s;
 }
-.title-rules-btn:active{transform:scale(.97)}
+.title-rules-btn:active{transform:scale(.96)}
+.title-rules-btn:hover{background:rgba(232,193,106,.06);box-shadow:0 0 16px rgba(232,193,106,.15)}
+.title-version{text-align:center;color:var(--text-dim);font-size:.6rem;letter-spacing:.24em;margin-top:14px;text-transform:uppercase}
+.title-corners{animation:none!important}
+.tcorner{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--accent);opacity:.5;font-family:var(--font-display);line-height:1}
+.tcorner .tc-k{font-size:1.05rem}
+.tcorner .tc-d{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.6}
+.tc-tl{top:4px;left:4px}.tc-tr{top:4px;right:4px}
+.tc-bl{bottom:4px;left:4px;transform:rotate(180deg)}.tc-br{bottom:4px;right:4px;transform:rotate(180deg)}
 
 /* ========== AI COUNT SCREEN ========== */
 .setup-title{text-align:center;margin:20px 0}
@@ -404,46 +436,91 @@ input[type="text"].name-input:focus{border-color:var(--gold)}
 </head>
 <body>
 
+<!-- inline SVG icon sprite (line icons used across the UI) -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="ic-swords" viewBox="0 0 24 24">
+    <line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/>
+    <line x1="14.4" y1="17.4" x2="17.4" y2="14.4"/><line x1="6.6" y1="14.4" x2="9.6" y2="17.4"/>
+    <circle cx="20.2" cy="20.2" r="1.05"/><circle cx="3.8" cy="20.2" r="1.05"/>
+  </symbol>
+  <symbol id="ic-people" viewBox="0 0 24 24">
+    <circle cx="9" cy="8" r="3"/><path d="M3.6 19a5.4 5.4 0 0 1 10.8 0"/>
+    <circle cx="16.6" cy="9" r="2.3"/><path d="M15.2 13.3A4.4 4.4 0 0 1 21 19"/>
+  </symbol>
+  <symbol id="ic-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6"/><ellipse cx="12" cy="12" rx="3.8" ry="8.6"/>
+    <line x1="3.4" y1="12" x2="20.6" y2="12"/><line x1="5" y1="6.7" x2="19" y2="6.7"/><line x1="5" y1="17.3" x2="19" y2="17.3"/>
+  </symbol>
+  <symbol id="ic-chart" viewBox="0 0 24 24">
+    <line x1="5" y1="20" x2="5" y2="13.5"/><line x1="10" y1="20" x2="10" y2="8.5"/>
+    <line x1="14.5" y1="20" x2="14.5" y2="11"/><line x1="19" y1="20" x2="19" y2="5.5"/>
+  </symbol>
+  <symbol id="ic-diamond" viewBox="0 0 24 24">
+    <polygon points="12,2.5 21.5,12 12,21.5 2.5,12"/>
+  </symbol>
+</svg>
+
 <!-- ===== TITLE SCREEN ===== -->
-<section id="screen-title" class="screen active">
-  <div class="title-wrap">
-    <div class="lang-toggle" id="lang-toggle">
-      <span>🌐</span> <span id="lang-label">JP</span>
-    </div>
-    <div class="title-logo">
-      <div class="title-diamond"><svg viewBox="0 0 60 60"><polygon points="30,4 56,30 30,56 4,30" fill="none" stroke="#e94560" stroke-width="2.5"/><text x="30" y="36" text-anchor="middle" font-family="serif" font-size="20" font-weight="bold" fill="#e94560">K</text></svg></div>
-      <h1 data-i18n="title">てんびん</h1>
-      <div class="title-sub" data-i18n="subtitle">ダイヤのキング</div>
-      <div style="margin-top:10px"><span class="badge badge-beta">v0.3 BETA</span></div>
-    </div>
+<section id="screen-title" class="screen active title-screen">
+  <div class="lang-toggle" id="lang-toggle" role="button" tabindex="0" aria-label="Language">
+    <span class="lang-seg lang-jp">JP</span><span class="lang-div">|</span><span class="lang-seg lang-en">EN</span>
   </div>
-  <p class="title-quote" data-i18n="quote">「全員の選んだ数字の平均 × 0.8 に最も近い数字を選べ。」</p>
+
+  <div class="title-hero">
+    <div class="title-emblem">
+      <svg class="emblem-svg" viewBox="0 0 260 260" aria-hidden="true">
+        <circle class="em-guide" cx="130" cy="130" r="92"/>
+        <circle class="em-guide2" cx="130" cy="130" r="66"/>
+        <polygon class="em-d-outer" points="130,20 240,130 130,240 20,130"/>
+        <polygon class="em-d-inner" points="130,46 214,130 130,214 46,130"/>
+        <text class="em-k" x="130" y="163" text-anchor="middle">K</text>
+      </svg>
+      <span class="emblem-mult">&times;0.8</span>
+    </div>
+    <h1 class="title-name" data-i18n="title">てんびん</h1>
+    <div class="title-tagline"><span class="tl-line"></span>KING OF DIAMONDS<span class="tl-line"></span></div>
+  </div>
+
   <div class="mode-grid">
-    <div class="mode-btn primary" id="btn-mode-ai">
-      <span class="mode-icon">⚔️</span>
+    <button class="mode-btn primary" id="btn-mode-ai" type="button">
+      <svg class="mode-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-swords"/></svg>
+      <svg class="mode-sep" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-diamond"/></svg>
       <span class="mode-label" data-i18n="modeAI">vs AI</span>
       <span class="mode-desc" data-i18n="modeAIDesc">AIキャラクターと対戦</span>
-    </div>
-    <div class="mode-btn" id="btn-mode-pnp">
-      <span class="mode-icon">🤝</span>
+    </button>
+    <button class="mode-btn" id="btn-mode-pnp" type="button">
+      <svg class="mode-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-people"/></svg>
+      <svg class="mode-sep" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-diamond"/></svg>
       <span class="mode-label" data-i18n="modePnP">みんなで遊ぶ</span>
       <span class="mode-desc" data-i18n="modePnPDesc">1台のデバイスで</span>
-    </div>
-    <div class="mode-btn disabled" id="btn-mode-online">
+    </button>
+    <button class="mode-btn disabled" id="btn-mode-online" type="button">
       <span class="coming-soon-tag">Coming Soon</span>
-      <span class="mode-icon">🌐</span>
+      <svg class="mode-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-globe"/></svg>
+      <svg class="mode-sep" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-diamond"/></svg>
       <span class="mode-label" data-i18n="modeOnline">オンライン対戦</span>
       <span class="mode-desc" data-i18n="modeOnlineDesc">準備中</span>
-    </div>
-    <div class="mode-btn" id="btn-mode-history">
-      <span class="mode-icon">📊</span>
+    </button>
+    <button class="mode-btn" id="btn-mode-history" type="button">
+      <svg class="mode-ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-chart"/></svg>
+      <svg class="mode-sep" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-diamond"/></svg>
       <span class="mode-label" data-i18n="modeHistory">戦績</span>
       <span class="mode-desc" data-i18n="modeHistoryDesc">過去の記録を見る</span>
-    </div>
+    </button>
   </div>
-  <button class="title-rules-btn" id="btn-title-rules">
-    <span>📖</span> <span data-i18n="viewRules">ルール確認</span>
+
+  <button class="title-rules-btn" id="btn-title-rules" type="button">
+    <span data-i18n="viewRules">ルール確認</span>
   </button>
+
+  <div class="title-version">v0.3 BETA</div>
+
+  <div class="title-corners" aria-hidden="true">
+    <span class="tcorner tc-tl"><span class="tc-k">K</span><svg class="tc-d" viewBox="0 0 24 24"><use href="#ic-diamond"/></svg></span>
+    <span class="tcorner tc-tr"><span class="tc-k">K</span><svg class="tc-d" viewBox="0 0 24 24"><use href="#ic-diamond"/></svg></span>
+    <span class="tcorner tc-bl"><span class="tc-k">K</span><svg class="tc-d" viewBox="0 0 24 24"><use href="#ic-diamond"/></svg></span>
+    <span class="tcorner tc-br"><span class="tc-k">K</span><svg class="tc-d" viewBox="0 0 24 24"><use href="#ic-diamond"/></svg></span>
+  </div>
 </section>
 
 <!-- ===== AI: PLAYER COUNT ===== -->
@@ -893,7 +970,7 @@ function applyI18n() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
   });
-  $('lang-label').textContent = currentLang === 'ja' ? 'JP' : 'EN';
+  // language toggle highlight is handled by CSS via the <html lang="…"> attribute
   updateAiCountLabel();
   updatePnpCountLabel();
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tenbin-v3';
+const CACHE_NAME = 'tenbin-v4';
 const ASSETS = [
   './',
   './index.html',
