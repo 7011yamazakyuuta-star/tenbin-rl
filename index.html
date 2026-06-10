@@ -508,6 +508,44 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
   .game-columns .player-list{flex:none;flex-direction:row;flex-wrap:wrap;justify-content:center}
   .game-columns .player-list .pcard{flex:0 0 calc(33.3% - 6px)}
 }
+/* ========== CHARACTER SELECT (Diamond Noir) ========== */
+.char-select-header h2{font-size:1.15rem}
+.char-grid-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);text-align:center;margin-bottom:8px}
+.slot-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.slot-card{
+  display:flex;align-items:center;gap:11px;padding:10px 12px;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  cursor:pointer;backdrop-filter:blur(6px);min-height:54px;
+  transition:border-color .2s,background .2s,transform .1s;
+}
+.slot-card:active{transform:scale(.99)}
+.slot-card.active-slot{border-color:var(--gold);background:rgba(232,193,106,.04);box-shadow:0 0 12px rgba(232,193,106,.12)}
+.slot-icon{font-size:1.5rem;width:34px;text-align:center;flex-shrink:0;filter:drop-shadow(0 2px 5px rgba(0,0,0,.5))}
+.slot-name{font-family:var(--font-display);font-weight:600;font-size:.92rem}
+.slot-stars{font-size:.62rem;color:var(--gold);letter-spacing:1px}
+.slot-empty{color:var(--text-dim);font-size:.85rem;font-style:italic}
+.slot-btn{
+  padding:6px 11px;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;border-radius:7px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text-muted);
+  cursor:pointer;flex-shrink:0;transition:transform .1s,border-color .2s;
+}
+.slot-btn:active{transform:scale(.95);border-color:var(--accent-soft)}
+.char-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.char-card{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:14px 6px;aspect-ratio:3/4;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:10px;
+  cursor:pointer;backdrop-filter:blur(6px);overflow:hidden;
+  transition:transform .1s,border-color .2s,box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.char-card:active{transform:scale(.95)}
+.char-card.highlighted{border-color:var(--char-color);box-shadow:0 0 16px rgba(255,255,255,.12)}
+.cc-pip{position:absolute;top:6px;left:8px;font-size:.72rem;line-height:1;color:var(--char-color)}
+.cc-pip.cc-pip-br{top:auto;left:auto;bottom:6px;right:8px;transform:rotate(180deg)}
+.char-card-icon{font-size:2.4rem;line-height:1;filter:drop-shadow(0 2px 6px rgba(0,0,0,.55))}
+.char-card-name{font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.char-card-stars{font-size:.58rem;color:var(--gold);letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -1387,9 +1425,11 @@ function renderSlots() {
 function renderCharGrid() {
   const html = CHARACTERS.map(c => {
     return `<div class="char-card" data-char="${c.id}" style="--char-color:${c.color}">
+      <span class="cc-pip">♦</span>
       <span class="char-card-icon">${c.icon}</span>
       <span class="char-card-name">${charName(c)}</span>
       <span class="char-card-stars">${starsStr(c.stars)}</span>
+      <span class="cc-pip cc-pip-br">♦</span>
     </div>`;
   }).join('');
   $('char-grid').innerHTML = html;
