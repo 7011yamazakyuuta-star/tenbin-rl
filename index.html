@@ -395,14 +395,15 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
 
 /* ========== MODALS & OVERLAYS ========== */
 .modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(3px);
   display:flex;align-items:center;justify-content:center;
   z-index:100;padding:20px;animation:fadeUp .2s ease-out;
 }
 .modal-content{
-  background:var(--bg-card);border-radius:var(--radius);
+  background:#16161d;border-radius:var(--radius);
   padding:24px;max-width:320px;width:100%;
-  border:1px solid var(--border);text-align:center;
+  border:1px solid var(--border-strong);text-align:center;
+  box-shadow:0 24px 70px rgba(0,0,0,.6);
   animation:scaleIn .25s ease-out;
 }
 .modal-icon{font-size:4rem;margin-bottom:8px}
@@ -425,8 +426,8 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
 /* Rules modal */
 .rules-modal-body{
   max-height:60vh;overflow-y:auto;text-align:left;
-  font-size:.85rem;color:var(--text-muted);line-height:1.7;
-  padding:16px;background:var(--bg-card2);border-radius:var(--radius-sm);
+  font-size:.85rem;color:#cfcfda;line-height:1.7;
+  padding:16px;background:rgba(0,0,0,.28);border:1px solid var(--border);border-radius:var(--radius-sm);
   margin-bottom:16px;
 }
 .rules-modal-body h4{color:var(--text);margin:12px 0 4px;font-size:.9rem}
