@@ -2,8 +2,11 @@
 Phase C-4: 学習済みPPOモデルを ONNX 形式へ変換
 
 PWA (onnxruntime-web) でブラウザ推論するため、SB3 の PPO 方策ネットワークを
-ONNX にエクスポートする。出力 "action" が決定論的な選択値 (0-100) になるので、
-ブラウザ側はそれをそのまま使えばよい。
+ONNX にエクスポートする。出力 "logits"（101次元）の argmax が決定論的な選択値 (0-100)。
+
+torch の新しい dynamo エクスポータは SB3 の分布ベース forward を辿れないことがあるため、
+- 方策ネットを「obs -> logits」の純テンソル演算だけに切り出し、
+- 安定したレガシー(TorchScript)エクスポータ (dynamo=False) を使う。
 
 使い方:
     python training/export_onnx.py
@@ -24,19 +27,21 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(SCRIPT_DIR, "models")
 
 
-class OnnxablePolicy(th.nn.Module):
-    """SB3 方策を ONNX 化可能にする薄いラッパー。
+class PolicyLogits(th.nn.Module):
+    """obs -> action logits（101次元）。決定論的な選択は argmax(logits)。
 
-    forward は deterministic=True で (action, value, log_prob) を返す。
-    ブラウザ側は最初の出力 "action"（決定論的な選択値）だけ使えばよい。
+    SB3 の分布生成・サンプリングを通さず、方策ネットの純テンソル演算だけを
+    切り出すことで、ONNX へ安定して変換できるようにする。
     """
 
     def __init__(self, policy):
         super().__init__()
         self.policy = policy
 
-    def forward(self, observation):
-        return self.policy(observation, deterministic=True)
+    def forward(self, obs):
+        features = self.policy.extract_features(obs)
+        latent_pi = self.policy.mlp_extractor.forward_actor(features)
+        return self.policy.action_net(latent_pi)
 
 
 def main():
@@ -51,34 +56,37 @@ def main():
     model = PPO.load(model_path, device="cpu")
     model.policy.eval()
 
-    onnx_policy = OnnxablePolicy(model.policy)
-    obs_shape = model.observation_space.shape  # 例: (27,)
-    dummy = th.randn(1, *obs_shape, dtype=th.float32)
+    net = PolicyLogits(model.policy)
+    obs_dim = model.observation_space.shape[0]
+    dummy = th.randn(1, obs_dim, dtype=th.float32)
 
     out_path = os.path.join(MODELS_DIR, "ppo_tenbin.onnx")
-    th.onnx.export(
-        onnx_policy,
-        dummy,
-        out_path,
+    export_kwargs = dict(
         opset_version=17,
         input_names=["obs"],
-        output_names=["action", "value", "log_prob"],
-        dynamic_axes={"obs": {0: "batch"}},
+        output_names=["logits"],
+        dynamic_axes={"obs": {0: "batch"}, "logits": {0: "batch"}},
     )
-    print(f"ONNX を保存: {out_path}  (obs_dim={obs_shape[0]})")
+    try:
+        # 安定したレガシー(TorchScript)エクスポータを優先
+        th.onnx.export(net, dummy, out_path, dynamo=False, **export_kwargs)
+    except TypeError:
+        # 古い torch には dynamo 引数が無い（その場合はそのままレガシー）
+        th.onnx.export(net, dummy, out_path, **export_kwargs)
+    print(f"ONNX を保存: {out_path}  (obs_dim={obs_dim}, 出力=logits[101])")
 
     # onnxruntime で PyTorch と出力が一致するか検証
     try:
         import onnxruntime as ort
 
         sess = ort.InferenceSession(out_path, providers=["CPUExecutionProvider"])
-        test = np.random.randn(1, *obs_shape).astype(np.float32)
-        onnx_action = sess.run(None, {"obs": test})[0]
+        test = np.random.randn(1, obs_dim).astype(np.float32)
+        onnx_logits = sess.run(None, {"obs": test})[0]
         with th.no_grad():
-            th_action, _, _ = onnx_policy(th.tensor(test))
+            th_logits = net(th.tensor(test)).numpy()
         print(
-            f"検証: ONNX action={int(np.ravel(onnx_action)[0])}  "
-            f"/  PyTorch action={int(th.ravel(th_action)[0])}"
+            f"検証: ONNX argmax={int(onnx_logits.argmax())}  "
+            f"/  PyTorch argmax={int(th_logits.argmax())}"
         )
         print("→ 一致していれば変換成功。次は PWA への組込み (C-5) です。")
     except Exception as e:  # noqa: BLE001
