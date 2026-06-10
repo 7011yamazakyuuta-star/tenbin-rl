@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tenbin-v7';
+const CACHE_NAME = 'tenbin-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -25,7 +25,19 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
-  );
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  // HTML / ナビゲーションはネットワーク優先（新しいデプロイを即反映、オフライン時のみキャッシュ）
+  if (req.mode === 'navigate' || req.destination === 'document') {
+    event.respondWith(
+      fetch(req).then(res => {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then(c => c.put(req, copy));
+        return res;
+      }).catch(() => caches.match(req).then(c => c || caches.match('./index.html')))
+    );
+    return;
+  }
+  // その他の静的アセットはキャッシュ優先（高速・オフライン）
+  event.respondWith(caches.match(req).then(cached => cached || fetch(req)));
 });
