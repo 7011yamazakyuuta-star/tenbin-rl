@@ -1,10 +1,11 @@
-const CACHE_NAME = 'tenbin-v3';
+const CACHE_NAME = 'tenbin-v7';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icons/icon-192.svg',
-  './icons/icon-512.svg'
+  './icons/icon-512.svg',
+  './favicon.svg'
 ];
 
 self.addEventListener('install', event => {
