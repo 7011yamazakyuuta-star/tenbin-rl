@@ -104,7 +104,7 @@ def make_env(pool, seed):
     return _init
 
 
-def build_model(venv, seed, tensorboard_log=None):
+def build_model(venv, seed, tensorboard_log=None, device="cpu"):
     """RESUME 準拠のハイパーパラメータで PPO を構築する。"""
     return PPO(
         "MlpPolicy",
@@ -116,7 +116,7 @@ def build_model(venv, seed, tensorboard_log=None):
         gamma=0.99,
         verbose=1,
         seed=seed,
-        device="cpu",  # 小さなMLP方策はCPUの方が速い（SB3公式推奨）
+        device=device,  # 小さなMLP方策はCPUの方が速い（SB3公式推奨）。--device で変更可
         tensorboard_log=tensorboard_log,
     )
 
@@ -163,6 +163,8 @@ def main():
     parser.add_argument("--n-envs", type=int, default=4,
                         help="並列環境数（デフォルト 4）")
     parser.add_argument("--seed", type=int, default=42, help="乱数シード")
+    parser.add_argument("--device", default="cpu",
+                        help="訓練デバイス（cpu / cuda）。MLP方策はCPU推奨")
     parser.add_argument("--smoke", action="store_true",
                         help="スモークテストのみ実行して終了")
     args = parser.parse_args()
@@ -178,7 +180,7 @@ def main():
     print(f"  総ステップ数 : {args.timesteps:,}")
     print(f"  並列環境数   : {args.n_envs}")
     print(f"  相手プール   : {[name for name, _ in OPPONENT_POOL]}")
-    print(f"  デバイス     : cpu\n")
+    print(f"  デバイス     : {args.device}\n")
 
     # ベクトル化環境（環境ごとに別シードで相手サンプリング）
     venv = DummyVecEnv([
@@ -187,7 +189,7 @@ def main():
     # 注: 純Pythonの軽量環境のため DummyVecEnv で十分。
     #     より高速化したい場合は SubprocVecEnv に差し替え可能。
 
-    model = build_model(venv, seed=args.seed, tensorboard_log=LOGS_DIR)
+    model = build_model(venv, seed=args.seed, tensorboard_log=LOGS_DIR, device=args.device)
 
     # 10万ステップごとにチェックポイント保存（save_freq は env あたりのステップ数）
     checkpoint_cb = CheckpointCallback(

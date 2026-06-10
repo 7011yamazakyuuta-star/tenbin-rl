@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Phase C-3 RL artifacts — keep only the final model, ignore logs & checkpoints
+training/logs/
+training/models/*
+!training/models/ppo_tenbin_final.zip
