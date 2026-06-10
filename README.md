@@ -2,6 +2,8 @@
 
 > 今際の国のアリスに登場するダイヤのキング「てんびん」のゲームシミュレーター
 
+**🎮 プレイ（PWA）: https://7011yamazakyuuta-star.github.io/tenbin-rl/**
+
 ## 概要
 
 「てんびん」は、**p-Beauty Contest**（美人投票ゲーム）をベースにした知能戦カードゲームです。

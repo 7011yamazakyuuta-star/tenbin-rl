@@ -12,6 +12,18 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="mask-icon" href="favicon.svg" color="#e11d48">
 <title>てんびん - ダイヤのキング</title>
+<meta name="description" content="今際の国のアリス『ダイヤのキング』の心理戦ゲーム。全員の平均×0.8に最も近い数を選べ。強化学習(PPO)で訓練したAIと対戦できるPWA。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="てんびん — ダイヤのキング">
+<meta property="og:description" content="平均×0.8に最も近い数を選ぶ心理戦ゲーム。強化学習で訓練したAIと対戦。">
+<meta property="og:url" content="https://7011yamazakyuuta-star.github.io/tenbin-rl/">
+<meta property="og:image" content="https://7011yamazakyuuta-star.github.io/tenbin-rl/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="てんびん — ダイヤのキング">
+<meta name="twitter:description" content="平均×0.8に最も近い数を選ぶ心理戦ゲーム。強化学習で訓練したAIと対戦。">
+<meta name="twitter:image" content="https://7011yamazakyuuta-star.github.io/tenbin-rl/og-image.png">
 <style>
 /* ========== BASE ========== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -596,6 +608,12 @@ html[lang="ja"] .lang-jp,html[lang="en"] .lang-en{color:var(--gold);text-shadow:
 .standing-pts{font-family:var(--font-display);color:var(--text-muted);font-size:.95rem}
 .gameover-stats{text-align:center;color:var(--text-dim);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;margin:14px 0}
 .gameover-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:12px}
+/* ========== ACCESSIBILITY ========== */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.btn:focus-visible,.mode-btn:focus-visible,.game-nav-btn:focus-visible,.title-rules-btn:focus-visible,.lang-toggle:focus-visible,.btn-adjust:focus-visible,.history-tab:focus-visible,.slot-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:var(--radius-sm)}
 </style>
 </head>
 <body>
@@ -1263,6 +1281,7 @@ let lastAiPlayerCount = 4;
 // === HELPERS ===
 function $(id) { return document.getElementById(id); }
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
@@ -1687,7 +1706,7 @@ function renderGame() {
     ph += '<div class="pcard' + (elim ? ' eliminated' : '') + (p.isHuman ? ' you' : '') + '">';
     ph += '<span class="pcard-pip" style="color:' + p.color + '">♦</span>';
     ph += '<div class="pcard-portrait">' + (p.icon || '♦') + '</div>';
-    ph += '<div class="pcard-name">' + p.name + '</div>';
+    ph += '<div class="pcard-name">' + escapeHtml(p.name) + '</div>';
     if (elim) {
       ph += '<div class="pcard-status">' + t('eliminated') + '</div>';
     } else {
@@ -1742,7 +1761,7 @@ function renderResult(res) {
     rh += '<span class="result-icon">' + (isW ? '★' : isInv ? '✕' : '·') + '</span>';
     rh += '<span class="result-name" style="color:' + p.color + '">';
     if (p.icon) rh += p.icon + ' ';
-    rh += p.name + '</span>';
+    rh += escapeHtml(p.name) + '</span>';
     rh += '<span class="result-choice">' + res.choices[i] + '</span>';
     rh += '<span class="result-dist">' + t('distLabel', { d: dist.toFixed(2) }) + '</span>';
     rh += '<span class="result-pts ' + (pc === 0 ? 'pts-zero' : 'pts-neg') + '">' + (pc >= 0 ? '+' : '') + pc + '</span>';
@@ -1785,12 +1804,12 @@ function renderGameOver() {
       bh = '<h2 style="color:var(--accent)">' + t('gameOverTitle') + '</h2>';
       bh += '<div class="result-label" style="color:var(--text-muted)">' + t('youEliminated') + '</div>';
       const winner = p.find(pl => pl.alive);
-      if (winner) bh += '<div style="margin-top:8px;font-size:.85rem;color:var(--text-dim)">' + t('winnerIs', { name: winner.name }) + '</div>';
+      if (winner) bh += '<div style="margin-top:8px;font-size:.85rem;color:var(--text-dim)">' + t('winnerIs', { name: escapeHtml(winner.name) }) + '</div>';
     }
   } else {
     const winner = p.find(pl => pl.alive);
     if (winner) {
-      bh = '<h2 style="color:var(--gold);animation:pulse 1.5s infinite">' + t('pnpWinnerAnnounce', { name: winner.name }) + '</h2>';
+      bh = '<h2 style="color:var(--gold);animation:pulse 1.5s infinite">' + t('pnpWinnerAnnounce', { name: escapeHtml(winner.name) }) + '</h2>';
     } else {
       bh = '<h2 style="color:var(--accent)">' + t('pnpGameOver') + '</h2>';
     }
@@ -1806,7 +1825,7 @@ function renderGameOver() {
     sh += '<span class="standing-rank' + (rank === 1 ? ' rank1' : '') + '">' + rank + '</span>';
     sh += '<span class="standing-name" style="color:' + pl.color + '">';
     if (pl.icon) sh += pl.icon + ' ';
-    sh += pl.name + '</span>';
+    sh += escapeHtml(pl.name) + '</span>';
     sh += '<span class="standing-pts">' + pl.points + ' pt</span>';
     sh += '</div>';
   });
@@ -2076,7 +2095,7 @@ function renderPnPHistory() {
     lh += '<div class="history-item">';
     lh += '<span class="history-date">' + ds + '</span>';
     lh += '<span class="history-detail">' + g.playerCount + (currentLang === 'en' ? 'P / ' : '人 / ') + g.rounds + 'R</span>';
-    lh += '<span class="history-result win">' + t('pnpHistoryWinner', { name: g.winner }) + '</span>';
+    lh += '<span class="history-result win">' + t('pnpHistoryWinner', { name: escapeHtml(g.winner) }) + '</span>';
     lh += '</div>';
   });
   $('pnp-history-list').innerHTML = lh;
