@@ -211,3 +211,4 @@ training/logs/
 training/models/*
 !training/models/ppo_tenbin_final.zip
 !training/models/ppo_tenbin.onnx
+!training/models/ppo_tenbin_weights.json
