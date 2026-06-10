@@ -73,18 +73,40 @@ git push
 
 ---
 
-## B. Google Colab で実行（GPU不要・CPUランタイムでOK）
+## B. Google Colab で実行
+
+> **GPUは不要**。CPU/T4ランタイムで十分で、**A100でも速くなりません**（CPUバウンドな処理のため。下の「A100について」参照）。
 
 ```python
+# 1) クローン
 !git clone https://github.com/7011yamazakyuuta-star/tenbin-rl.git
 %cd tenbin-rl
-!pip install -q -r training/requirements.txt
+!git checkout claude/kind-cerf-ox188s
+
+# 2) 依存（ColabはCUDA版torch同梱。SB3等のみ追加）
+!pip install -q stable-baselines3 gymnasium onnx onnxruntime
+
+# 3) 訓練 → 評価 → ONNX変換（C-3 + C-4 を一気に）
 !python training/train_ppo.py --smoke
 !python training/train_ppo.py --timesteps 500000
 !python training/evaluate.py
+!python training/export_onnx.py
 ```
-モデルは `training/models/ppo_tenbin_final.zip`。ダウンロードするか、GitHubトークンを設定して push。
-（ランタイムが切れると未push成果物は消えるので、訓練後はこまめにコミット）
+
+```python
+# 4) 成果物をダウンロード（または GitHub に push）
+from google.colab import files
+files.download('training/models/ppo_tenbin_final.zip')
+files.download('training/models/ppo_tenbin.onnx')
+files.download('training/results/ppo_evaluation.json')
+```
+（ランタイムが切れると未保存の成果物は消えるので、訓練後はこまめにダウンロード/コミット）
+
+### A100 について
+この訓練は **観測27次元・MLP 64×64** と極小で、ボトルネックは Python 製の環境ステップ（CPU側）。
+そのため **A100 でも速くならず、むしろ小バッチのGPU転送で遅くなることも**あります。
+- 速度目的なら **CPU / T4 ランタイムで十分**（数分〜30分）。
+- A100 を活かすなら：`--timesteps 2000000` など**長め**に回す、または**複数シードで訓練して `evaluate.py` で最良を選ぶ**のが現実的（“強い個体を厳選”できる）。GPUに実際に乗せるなら `--device cuda`。
 
 ---
 
