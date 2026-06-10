@@ -84,7 +84,7 @@ git push
 !git checkout claude/kind-cerf-ox188s
 
 # 2) 依存（ColabはCUDA版torch同梱。SB3等のみ追加）
-!pip install -q stable-baselines3 gymnasium onnx onnxruntime
+!pip install -q stable-baselines3 gymnasium onnx onnxruntime onnxscript
 
 # 3) 訓練 → 評価 → ONNX変換（C-3 + C-4 を一気に）
 !python training/train_ppo.py --smoke
